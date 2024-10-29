@@ -5,6 +5,8 @@ window.renderList = function(products) {
             '<th>Title</th>',
             '<th>Description</th>',
             '<th>Price</th>',
+            '<th>Image</th>',
+            '<th>Add</th>',
         '</tr>'
     ].join('');
 
@@ -14,6 +16,8 @@ window.renderList = function(products) {
                 '<td>' + product.title + '</td>',
                 '<td>' + product.description + '</td>',
                 '<td>' + product.price + '</td>',
+                '<td><img src=' + 'public/images/' + product.image_path + '/></td>',
+                '<td><a href=#add' + product.id + '>Add</a></td>',
             '</tr>'
         ].join('');
     });

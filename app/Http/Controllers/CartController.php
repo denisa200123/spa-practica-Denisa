@@ -51,6 +51,9 @@ class CartController extends Controller
                 $productsInCart->push($id);
                 $request->session()->put('productsInCart', $productsInCart->all());
             }
+            if ($request->expectsJson()) {
+                return response()->json($productsInCart);
+            }
             return redirect()->route('index')->with('success', __('Product added to cart'));
         } catch (\Exception $e) {
             return back()->withErrors(__('The selected product does not exist'));
