@@ -11,7 +11,7 @@ use App\Models\Order;
 Route::middleware(['setLocale'])->group(function () {
 
     Route::controller(CartController::class)->group(function () {
-        Route::get('/', 'home')->name('home');
+        Route::get('/', 'index')->name('index');
         Route::get('/cart', 'cart')->name('cart');
         Route::post('/cart/{product}/clear', 'clearCart')->name('cart.clear');
         Route::post('/cart/{product}/add', 'addCart')->name('cart.add');

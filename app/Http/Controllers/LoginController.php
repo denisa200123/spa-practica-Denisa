@@ -15,7 +15,7 @@ class LoginController extends Controller
 
         if ($request->username === env('ADMIN_USERNAME') && $request->password === env('ADMIN_PASSWORD')) {
             $request->session()->put('is_admin', true);
-            return redirect()->route('home')->with('success', __('Login successfull!'));
+            return redirect()->route('index')->with('success', __('Login successfull!'));
         }
 
         return back()->withErrors(__('Invalid credentials!'));
@@ -24,6 +24,6 @@ class LoginController extends Controller
     public function destroy(Request $request)
     {
         $request->session()->forget('is_admin');
-        return redirect()->route('home');
+        return redirect()->route('index');
     }
 }

@@ -14,7 +14,7 @@ class Product extends Model
     {
         $productsInCart = $request->session()->get('productsInCart', []);
         
-        return static::whereNotIn('id', $productsInCart)->paginate(3);
+        return static::whereNotIn('id', $productsInCart)->get();
     }
     
     public function orders()

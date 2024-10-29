@@ -18,12 +18,15 @@ class CartController extends Controller
     }
 
     //list all products that aren't in cart
-    public function home(Request $request)
+    public function index(Request $request)
     {
         $this->initializeCart($request);
 
         $products = Product::notInCart($request);
-        return view('home',['products'=>$products]);
+        if ($request->expectsJson()) {
+            return response()->json($products);
+        }
+        return view('index',['products'=>$products]);
     }
 
     //see products in cart
@@ -48,7 +51,7 @@ class CartController extends Controller
                 $productsInCart->push($id);
                 $request->session()->put('productsInCart', $productsInCart->all());
             }
-            return redirect()->route('home')->with('success', __('Product added to cart'));
+            return redirect()->route('index')->with('success', __('Product added to cart'));
         } catch (\Exception $e) {
             return back()->withErrors(__('The selected product does not exist'));
         }
@@ -99,6 +102,6 @@ class CartController extends Controller
 
         $request->session()->forget('productsInCart');
 
-        return redirect()->route('home')->with('success', __('Order placed successfully'));
+        return redirect()->route('index')->with('success', __('Order placed successfully'));
     }
 }

@@ -1,7 +1,7 @@
 <br>
 <div style="display: flex; justify-content:space-between; align-items:center;">
     <div style="width: fit-content; height: fit-content; margin-left: 10px;">
-        <x-header-anchor href="{{ route('home') }}" :active="request()->is('/')">
+        <x-header-anchor href="{{ route('index') }}" :active="request()->is('/')">
             {{ __('Store') }}
         </x-header-anchor>
         <x-header-anchor href="{{ route('cart') }}" :active="request()->is('cart')">
