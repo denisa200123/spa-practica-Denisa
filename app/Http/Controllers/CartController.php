@@ -37,6 +37,9 @@ class CartController extends Controller
         $productsInCart = $request->session()->get('productsInCart', []);
         $products = Product::whereIn('id', $productsInCart)->get();
 
+        if ($request->expectsJson()) {
+            return response()->json($products);
+        }
         return view('cart', ['products' => $products]);
     }
 

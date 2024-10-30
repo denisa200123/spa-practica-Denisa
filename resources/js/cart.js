@@ -1,4 +1,4 @@
-console.log('index');
+console.log('cart');
 window.renderList = function(products) {
     let html = [
         '<tr>',
@@ -6,7 +6,7 @@ window.renderList = function(products) {
             '<th>Description</th>',
             '<th>Price</th>',
             '<th>Image</th>',
-            '<th>Add</th>',
+            '<th>Remove</th>',
         '</tr>'
     ].join('');
 
@@ -17,7 +17,7 @@ window.renderList = function(products) {
                 '<td>' + product.description + '</td>',
                 '<td>' + product.price + '</td>',
                 '<td><img src=' + 'images/' + product.image_path + '></td>',
-                '<td><a href=#add' + product.id + '>Add</a></td>',
+                '<td><a href=#remove' + product.id + '>Remove</a></td>',
             '</tr>'
         ].join('');
     });
