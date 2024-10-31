@@ -1,5 +1,8 @@
 console.log('rute');
 $(document).ready(function () {
+
+
+
     window.onhashchange = function () {
         $('.page').hide();
 
@@ -55,6 +58,9 @@ $(document).ready(function () {
                     },
                 });
                 break;
+
+            //checkout
+
 
             //index page
             default:

@@ -22,5 +22,24 @@ window.renderCart = function(products) {
         ].join('');
     });
 
+    let htmlForm = `
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="details">Order details</label>
+        <input type="text" id="details" name="details" required">
+
+        <label for="comments">Comments</label>
+        <textarea id="comments" name="comments"></textarea>
+
+        <br>
+
+        <button type="submit" class="btn btn-primary">Place Order</button>
+    `;
+
+    if(products.length > 0) {
+        $('.cart .checkout').html(htmlForm);
+    }
+
     return html;
 }
