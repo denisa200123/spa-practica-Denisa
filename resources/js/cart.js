@@ -1,4 +1,3 @@
-console.log('cart');
 window.renderCart = function(products) {
     let html = [
         '<tr>',
@@ -22,7 +21,7 @@ window.renderCart = function(products) {
         ].join('');
     });
 
-    let htmlForm = `
+    let htmlCheckoutForm = `
         <label for="name">Name</label>
         <input type="text" id="name" name="name" required>
 
@@ -38,7 +37,7 @@ window.renderCart = function(products) {
     `;
 
     if(products.length > 0) {
-        $('.cart .checkout').html(htmlForm);
+        $('.cart .checkoutForm').html(htmlCheckoutForm);
     }
 
     return html;

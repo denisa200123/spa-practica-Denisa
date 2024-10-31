@@ -1,4 +1,3 @@
-console.log('rute');
 $(document).ready(function () {
     $.ajaxSetup({
         headers: {
@@ -7,7 +6,7 @@ $(document).ready(function () {
     });
 
     //checkout form
-    $('.checkout').on('submit', function (e) {
+    $('.checkoutForm').on('submit', function (e) {
         e.preventDefault();
 
         let name = $('#name').val();
@@ -25,6 +24,28 @@ $(document).ready(function () {
             },
             success: function () {
                 window.location.hash = "#";
+            }
+        });
+    });
+
+    //login form
+    $('.loginForm').on('submit', function (e) {
+        e.preventDefault();
+
+        let username = $('#username').val();
+        let password = $('#password').val();
+
+        $.ajax({
+            type: 'post',
+            url: '/login',
+            dataType: 'json',
+            data: {
+                'username': username,
+                'password': password,
+            },
+            success: function () {
+                window.location.hash = "#";
+                window.onhashchange();
             }
         });
     });
@@ -79,8 +100,16 @@ $(document).ready(function () {
                 });
                 break;
 
-            //checkout
-
+            //login page
+            case '#login':
+                $('.page').hide();
+                $('.login').show();
+                $.ajax({
+                    success: function () {
+                        $('.login .loginForm').html(renderLoginForm()); 
+                    }
+                });
+                break;
 
             //index page
             default:

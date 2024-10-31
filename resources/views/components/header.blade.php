@@ -15,7 +15,7 @@
         <a href="#logout" style="margin-right: 10px;" class="btn btn-dark">{{ __('Logout') }}</a>
     @else
         <div style="width: fit-content; height: fit-content; margin-right: 10px;">
-            <a href="#products" class="btn btn-dark">{{ __('Admin login') }}</a>
+            <a href="#login" class="btn btn-dark">{{ __('Admin login') }}</a>
         </div>
     @endif
 </div>

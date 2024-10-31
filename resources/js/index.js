@@ -1,4 +1,3 @@
-console.log('index');
 window.renderIndex = function(products) {
     let html = [
         '<tr>',

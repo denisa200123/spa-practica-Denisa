@@ -15,7 +15,12 @@ class LoginController extends Controller
 
         if ($request->username === env('ADMIN_USERNAME') && $request->password === env('ADMIN_PASSWORD')) {
             $request->session()->put('is_admin', true);
-            return redirect()->route('index')->with('success', __('Login successfull!'));
+
+            if ($request->expectsJson()) {
+                return response()->json(['success' => 'Successfull login']);
+            }
+
+            return redirect()->route('index')->with('success', __('Successfull login!'));
         }
 
         return back()->withErrors(__('Invalid credentials!'));
