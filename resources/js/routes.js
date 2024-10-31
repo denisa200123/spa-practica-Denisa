@@ -121,6 +121,35 @@ $(document).ready(function () {
                 });
                 break;
 
+            //products page
+            case '#products':
+                $('.page').hide();
+                $('.products').show();
+                $.ajax({
+                    url: '/products',
+                    dataType: 'json',
+                    success: function (response) {
+                        $('.products .list').html(renderProducts(response));
+                    }
+                });
+                break;
+
+            //destroy product
+            case (window.location.hash.match(/#delete\d+/) || {}).input:
+                $('.page').hide();
+                $('.products').show();
+                let productToDelete = window.location.hash.split('#delete')[1];
+                $.ajax({
+                    method: 'DELETE',
+                    url: '/products/' + productToDelete,
+                    dataType: 'json',
+                    success: function () {
+                        window.location.hash = "#products";
+                        window.onhashchange();
+                    },
+                });
+                break;
+
             //index page
             default:
                 $('.page').hide();

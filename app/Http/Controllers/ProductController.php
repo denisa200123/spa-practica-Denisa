@@ -48,7 +48,13 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         Session::put('orderBy', 'none');
-        return View('products', ['products'=>Product::paginate(3)]);
+
+        $products = Product::all();
+        if ($request->expectsJson()) {
+            return response()->json($products);
+        }
+
+        return view('products', ['products'=>$products]);
     }
 
     //store product
@@ -127,7 +133,7 @@ class ProductController extends Controller
             $product = Product::findOrFail($id);
             $product->delete();
 
-            return redirect()->route('products.index')->with('success', __('Product removed'));
+            return response()->json(['success' => 'Product destroyed']);
         } catch (\Exception $e) {
             return back()->withErrors(__('Product couldnt be removed'));
         }

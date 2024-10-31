@@ -13,6 +13,7 @@
         @vite('resources/js/index.js')
         @vite('resources/js/cart.js')
         @vite('resources/js/login.js')
+        @vite('resources/js/products.js')
         
         <style>
             img {
