@@ -55,7 +55,7 @@ class CartController extends Controller
                 $request->session()->put('productsInCart', $productsInCart->all());
             }
             if ($request->expectsJson()) {
-                return response()->json($productsInCart);
+                return response()->json(['success' => 'Product added']);
             }
             return redirect()->route('index')->with('success', __('Product added to cart'));
         } catch (\Exception $e) {
@@ -74,7 +74,9 @@ class CartController extends Controller
                 unset($productsInCart[$key]);
                 $request->session()->put('productsInCart', $productsInCart);
             }
-
+            if ($request->expectsJson()) {
+                return response()->json(['success' => 'Product removed']);
+            }
             return redirect()->route('cart')->with('success', __('Product removed'));
         } catch (\Exception $e) {
             return back()->withErrors(__('The selected product does not exist'));

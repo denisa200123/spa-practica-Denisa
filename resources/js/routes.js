@@ -4,33 +4,69 @@ $(document).ready(function () {
         $('.page').hide();
 
         switch(window.location.hash) {
+            //cart page
             case '#cart':
+                $('.page').hide();
                 $('.cart').show();
-                $.ajax('/cart', {
+                $.ajax({
+                    url: '/cart',
                     dataType: 'json',
                     success: function (response) {
-                        $('.cart .list').html(renderList(response));
+                        // Render the products in the cart list
+                        $('.cart .list').html(renderCart(response));
                     }
                 });
                 break;
-            case (window.location.hash.match(/#add\d+/)):
+
+            //add product to cart
+            case (window.location.hash.match(/#add\d+/) || {}).input:
+                $('.page').hide();
                 $('.index').show();
-                console.log('/cart/' + window.location.hash.split('#add')[1] + '/add');
-                $.ajax('/cart/' + window.location.hash.split('#add')[1] + '/add', {
+                let addedProduct = window.location.hash.split('#add')[1];
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'post',
+                    url: '/cart/' + addedProduct + '/add',
                     dataType: 'json',
-                    success: function (response) {
-                        $('.index .list').html(renderList(response));
-                    }
+                    success: function () {
+                        window.location.hash = "#";
+                        window.onhashchange();
+                    },
                 });
                 break;
+
+            //remove product from cart
+            case (window.location.hash.match(/#remove\d+/) || {}).input:
+                $('.page').hide();
+                $('.cart').show();
+                let removedProduct = window.location.hash.split('#remove')[1];
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'post',
+                    url: '/cart/' + removedProduct + '/clear',
+                    dataType: 'json',
+                    success: function () {
+                        window.location.hash = "#cart";
+                        window.onhashchange();
+                    },
+                });
+                break;
+
+            //index page
             default:
+                $('.page').hide();
                 $('.index').show();
-                $.ajax('/', {
+                $.ajax({
+                    url: '/',
                     dataType: 'json',
                     success: function (response) {
-                        $('.index .list').html(renderList(response));
+                        $('.index .list').html(renderIndex(response));
                     }
-                }); 
+                });
                 break;
         }
     }

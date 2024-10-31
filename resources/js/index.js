@@ -1,5 +1,5 @@
 console.log('index');
-window.renderList = function(products) {
+window.renderIndex = function(products) {
     let html = [
         '<tr>',
             '<th>Title</th>',

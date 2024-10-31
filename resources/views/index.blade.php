@@ -9,5 +9,5 @@
     <div class="page cart" style="margin: 10px">
         <h2>{{ __('Your cart') }}</h2>
         <table class="list" border="1" cellpadding="10"></table>
-    </div> 
+    </div>
 </x-layout>

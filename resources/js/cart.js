@@ -1,5 +1,5 @@
 console.log('cart');
-window.renderList = function(products) {
+window.renderCart = function(products) {
     let html = [
         '<tr>',
             '<th>Title</th>',
