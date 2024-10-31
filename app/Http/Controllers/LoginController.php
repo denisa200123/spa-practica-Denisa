@@ -29,6 +29,11 @@ class LoginController extends Controller
     public function destroy(Request $request)
     {
         $request->session()->forget('is_admin');
+
+        if ($request->expectsJson()) {
+            return response()->json(['success' => 'Successfull logout']);
+        }
+
         return redirect()->route('index');
     }
 }

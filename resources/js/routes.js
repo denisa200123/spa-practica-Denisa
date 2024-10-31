@@ -45,7 +45,6 @@ $(document).ready(function () {
             },
             success: function () {
                 window.location.hash = "#";
-                window.onhashchange();
             }
         });
     });
@@ -107,6 +106,17 @@ $(document).ready(function () {
                 $.ajax({
                     success: function () {
                         $('.login .loginForm').html(renderLoginForm()); 
+                    }
+                });
+                break;
+
+            //logout
+            case '#logout':
+                $.ajax({
+                    url: '/logout',
+                    dataType: 'json',
+                    success: function () {
+                        window.location.hash = "#";
                     }
                 });
                 break;
