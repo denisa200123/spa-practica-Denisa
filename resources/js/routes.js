@@ -1,7 +1,33 @@
 console.log('rute');
 $(document).ready(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
+    //checkout form
+    $('.checkout').on('submit', function (e) {
+        e.preventDefault();
 
+        let name = $('#name').val();
+        let details = $('#details').val();
+        let comments = $('#comments').val();
+
+        $.ajax({
+            type: 'post',
+            url: '/checkout',
+            dataType: 'json',
+            data: {
+                'name': name,
+                'details': details,
+                'comments': comments,
+            },
+            success: function () {
+                window.location.hash = "#";
+            }
+        });
+    });
 
     window.onhashchange = function () {
         $('.page').hide();
@@ -27,9 +53,6 @@ $(document).ready(function () {
                 $('.index').show();
                 let addedProduct = window.location.hash.split('#add')[1];
                 $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
                     type: 'post',
                     url: '/cart/' + addedProduct + '/add',
                     dataType: 'json',
@@ -46,9 +69,6 @@ $(document).ready(function () {
                 $('.cart').show();
                 let removedProduct = window.location.hash.split('#remove')[1];
                 $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
                     type: 'post',
                     url: '/cart/' + removedProduct + '/clear',
                     dataType: 'json',

@@ -110,6 +110,9 @@ class CartController extends Controller
 
         $request->session()->forget('productsInCart');
 
+        if ($request->expectsJson()) {
+            return response()->json(['success' => 'Order placed']);
+        }
         return redirect()->route('index')->with('success', __('Order placed successfully'));
     }
 }
