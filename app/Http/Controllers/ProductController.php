@@ -53,8 +53,6 @@ class ProductController extends Controller
         if ($request->expectsJson()) {
             return response()->json($products);
         }
-
-        return view('products', ['products'=>$products]);
     }
 
     //store product
