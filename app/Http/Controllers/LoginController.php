@@ -19,6 +19,8 @@ class LoginController extends Controller
             if ($request->expectsJson()) {
                 return response()->json(['success' => 'Successfull login']);
             }
+
+            return view('index');
         }
 
         return back()->withErrors(__('Invalid credentials!'));
@@ -31,5 +33,7 @@ class LoginController extends Controller
         if ($request->expectsJson()) {
             return response()->json(['success' => 'Successfull logout']);
         }
+
+        return view('index');
     }
 }
