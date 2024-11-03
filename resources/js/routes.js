@@ -9,19 +9,13 @@ $(document).ready(function () {
     $('.checkoutForm').on('submit', function (e) {
         e.preventDefault();
 
-        let name = $('#name').val();
-        let details = $('#details').val();
-        let comments = $('#comments').val();
+        const checkoutData = $(this).serialize();
 
         $.ajax({
             type: 'post',
             url: '/checkout',
             dataType: 'json',
-            data: {
-                'name': name,
-                'details': details,
-                'comments': comments,
-            },
+            data: checkoutData,
             success: function () {
                 window.location.hash = "#";
             }
@@ -32,17 +26,13 @@ $(document).ready(function () {
     $('.loginForm').on('submit', function (e) {
         e.preventDefault();
 
-        let username = $('#username').val();
-        let password = $('#password').val();
+        const loginData = $(this).serialize();
 
         $.ajax({
             type: 'post',
             url: '/login',
             dataType: 'json',
-            data: {
-                'username': username,
-                'password': password,
-            },
+            data: loginData,
             success: function () {
                 window.location.hash = "#";
             }
@@ -55,7 +45,6 @@ $(document).ready(function () {
         switch(window.location.hash) {
             //cart page
             case '#cart':
-                $('.page').hide();
                 $('.cart').show();
                 $.ajax({
                     url: '/cart',
@@ -69,7 +58,6 @@ $(document).ready(function () {
 
             //add product to cart
             case (window.location.hash.match(/#add\d+/) || {}).input:
-                $('.page').hide();
                 $('.index').show();
                 let addedProduct = window.location.hash.split('#add')[1];
                 $.ajax({
@@ -85,7 +73,6 @@ $(document).ready(function () {
 
             //remove product from cart
             case (window.location.hash.match(/#remove\d+/) || {}).input:
-                $('.page').hide();
                 $('.cart').show();
                 let removedProduct = window.location.hash.split('#remove')[1];
                 $.ajax({
@@ -101,7 +88,6 @@ $(document).ready(function () {
 
             //login page
             case '#login':
-                $('.page').hide();
                 $('.login').show();
                 $.ajax({
                     success: function () {
@@ -123,7 +109,6 @@ $(document).ready(function () {
 
             //products page
             case '#products':
-                $('.page').hide();
                 $('.products').show();
                 $.ajax({
                     url: '/products',
@@ -136,7 +121,6 @@ $(document).ready(function () {
 
             //destroy product
             case (window.location.hash.match(/#delete\d+/) || {}).input:
-                $('.page').hide();
                 $('.products').show();
                 let productToDelete = window.location.hash.split('#delete')[1];
                 $.ajax({
@@ -152,7 +136,6 @@ $(document).ready(function () {
 
             //index page
             default:
-                $('.page').hide();
                 $('.index').show();
                 $.ajax({
                     url: '/',
