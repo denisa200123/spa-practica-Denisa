@@ -23,4 +23,9 @@
         <h2>{{ __('All the products:') }}</h2>
         <table class="list" border="1" cellpadding="10"></table>
     </div>
+
+    <div class="page edit" style="margin: 10px;">
+        <h2>{{ __('Edit product') }}</h2>
+        <form class="editForm" style="display: flex; flex-direction: column; width: fit-content; height: fit-content;"></form>
+    </div>
 </x-layout>

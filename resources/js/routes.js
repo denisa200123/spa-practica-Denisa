@@ -9,7 +9,7 @@ $(document).ready(function () {
     $('.checkoutForm').on('submit', function (e) {
         e.preventDefault();
 
-        const checkoutData = $(this).serialize();
+        let checkoutData = $(this).serialize();
 
         $.ajax({
             type: 'post',
@@ -26,7 +26,7 @@ $(document).ready(function () {
     $('.loginForm').on('submit', function (e) {
         e.preventDefault();
 
-        const loginData = $(this).serialize();
+        let loginData = $(this).serialize();
 
         $.ajax({
             type: 'post',
@@ -35,6 +35,23 @@ $(document).ready(function () {
             data: loginData,
             success: function () {
                 window.location.hash = "#";
+            }
+        });
+    });
+
+    //edit form
+    $('.editForm').on('submit', function (e) {
+        e.preventDefault();
+
+        let editData = $(this).serialize();
+
+        $.ajax({
+            method: 'PATCH',
+            url: '/products/' + editData,//not done
+            dataType: 'json',
+            data: editData,
+            success: function () {
+                window.location.hash = "#products";
             }
         });
     });
@@ -66,7 +83,6 @@ $(document).ready(function () {
                     dataType: 'json',
                     success: function () {
                         window.location.hash = "#";
-                        window.onhashchange();
                     },
                 });
                 break;
@@ -81,7 +97,6 @@ $(document).ready(function () {
                     dataType: 'json',
                     success: function () {
                         window.location.hash = "#cart";
-                        window.onhashchange();
                     },
                 });
                 break;
@@ -91,7 +106,7 @@ $(document).ready(function () {
                 $('.login').show();
                 $.ajax({
                     success: function () {
-                        $('.login .loginForm').html(renderLoginForm()); 
+                        $('.login .loginForm').html(renderLoginForm());
                     }
                 });
                 break;
@@ -129,7 +144,19 @@ $(document).ready(function () {
                     dataType: 'json',
                     success: function () {
                         window.location.hash = "#products";
-                        window.onhashchange();
+                    },
+                });
+                break;
+
+            //edit product page
+            case (window.location.hash.match(/#edit\d+/) || {}).input:
+                $('.edit').show();
+                let productToEdit = window.location.hash.split('#edit')[1];
+                $.ajax({
+                    url: '/products/' + productToEdit + '/edit',
+                    dataType: 'json',
+                    success: function (response) {
+                        $('.edit .editForm').html(renderEditForm(response));
                     },
                 });
                 break;

@@ -19,17 +19,11 @@ class Admin
             return redirect('/');
         }
 
-        //login form can be accessed only if admin is not already logged in
-        if (!session('is_admin') && $request->route()->named('login.form')) {
-            return $next($request);
-        }
-
         //only admin can access admin restricted pages
-        if (session('is_admin')) {
-            return $next($request);
+        if (!session('is_admin')) {
+            abort(403, 'unauthorized');
         }
 
-        //if the user is not logged in => redirect to main page
-        return redirect('/');
+        return $next($request);
     }
 }

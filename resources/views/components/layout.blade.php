@@ -14,6 +14,7 @@
         @vite('resources/js/cart.js')
         @vite('resources/js/login.js')
         @vite('resources/js/products.js')
+        @vite('resources/js/products-edit.js')
         
         <style>
             img {

@@ -83,12 +83,15 @@ class ProductController extends Controller
     }
 
     //edit product
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         try {
             $product = Product::findOrFail($id);
 
-            return view('products-edit', ['product' => $product]);
+            if ($request->expectsJson()) {
+                return response()->json($product);
+            }
+            return view('index');
         } catch (\Exception $e) {
             return back()->withErrors(__('Did not find product'));
         }
