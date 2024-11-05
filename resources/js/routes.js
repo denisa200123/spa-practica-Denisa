@@ -47,7 +47,7 @@ $(document).ready(function () {
 
         $.ajax({
             method: 'PATCH',
-            url: '/products/' + editData,//not done
+            url: '/products/' + window.location.hash.split('#edit')[1],
             dataType: 'json',
             data: editData,
             success: function () {
@@ -67,7 +67,6 @@ $(document).ready(function () {
                     url: '/cart',
                     dataType: 'json',
                     success: function (response) {
-                        // Render the products in the cart list
                         $('.cart .list').html(renderCart(response));
                     }
                 });

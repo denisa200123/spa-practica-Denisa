@@ -123,7 +123,10 @@ class ProductController extends Controller
             }
 
             $product->update($request->all());
-            return redirect()->route('products.index')->with('success', __('Product updated'));
+            if ($request->expectsJson()) {
+                return response()->json(['success' => 'Product updated']);
+            }
+
         } catch (\Exception $e) {
             return redirect()->route('products.index')->withErrors(__('Product couldnt be edited'));
         }

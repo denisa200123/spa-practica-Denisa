@@ -15,7 +15,7 @@ class Admin
     public function handle(Request $request, Closure $next)
     {
         //admin can't access login
-        if (session(key: 'is_admin') && $request->route()->named('login.form')) {
+        if (session('is_admin') && $request->route()->named('login.form')) {
             return redirect('/');
         }
 
