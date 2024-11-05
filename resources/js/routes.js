@@ -84,6 +84,7 @@ $(document).ready(function () {
                     url: '/cart',
                     dataType: 'json',
                     success: function (response) {
+                        document.title = 'Your cart';
                         $('.cart .list').html(renderCart(response));
                     }
                 });
@@ -122,6 +123,7 @@ $(document).ready(function () {
                 $('.login').show();
                 $.ajax({
                     success: function () {
+                        document.title = 'Login';
                         $('.login .loginForm').html(renderLoginForm());
                     }
                 });
@@ -145,6 +147,7 @@ $(document).ready(function () {
                     url: '/products',
                     dataType: 'json',
                     success: function (response) {
+                        document.title = 'Products page';
                         $('.products .list').html(renderProducts(response));
                     }
                 });
@@ -172,6 +175,7 @@ $(document).ready(function () {
                     url: '/products/' + productToEdit + '/edit',
                     dataType: 'json',
                     success: function (response) {
+                        document.title = 'Edit product page';
                         $('.edit .editProductForm').html(renderEditForm(response));
                     },
                 });
@@ -182,6 +186,7 @@ $(document).ready(function () {
                 $('.create').show();
                 $.ajax({
                     success: function () {
+                        document.title = 'Create product page';
                         $('.create .createProductForm').html(renderCreateForm());
                     },
                 });
@@ -194,6 +199,7 @@ $(document).ready(function () {
                     url: '/orders',
                     dataType: 'json',
                     success: function (response) {
+                        document.title = 'Orders page';
                         $('.orders .list').html(renderOrders(response));
                     },
                 });
@@ -206,6 +212,7 @@ $(document).ready(function () {
                     url: '/orders/' + window.location.hash.split('#order')[1],
                     dataType: 'json',
                     success: function (response) {
+                        document.title = 'Order page';
                         $('.order .list').html(renderOrder(response));
                     },
                 });
@@ -218,6 +225,7 @@ $(document).ready(function () {
                     url: '/',
                     dataType: 'json',
                     success: function (response) {
+                        document.title = 'Index';
                         $('.index .list').html(renderIndex(response));
                     }
                 });
