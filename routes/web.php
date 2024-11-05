@@ -37,7 +37,7 @@ Route::middleware(['setLocale'])->group(function () {
         Route::get('/logout', 'destroy')->name('login.destroy')->middleware('admin');
     });
 
-    Route::view('/orders', 'orders', ['orders'=>Order::paginate(5)])->name('orders.index')->middleware('admin');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index')->middleware('admin');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show')->middleware('admin');
 
     Route::post('/set-language', [LanguageController::class, 'setLanguage'])->name('set.language');

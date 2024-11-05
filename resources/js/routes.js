@@ -187,6 +187,30 @@ $(document).ready(function () {
                 });
                 break;
 
+            //orders page
+            case '#orders':
+                $('.orders').show();
+                $.ajax({
+                    url: '/orders',
+                    dataType: 'json',
+                    success: function (response) {
+                        $('.orders .list').html(renderOrders(response));
+                    },
+                });
+                break;
+
+            //order page
+            case (window.location.hash.match(/#order\d+/) || {}).input:
+                $('.order').show();
+                $.ajax({
+                    url: '/orders/' + window.location.hash.split('#order')[1],
+                    dataType: 'json',
+                    success: function (response) {
+                        $('.order .list').html(renderOrder(response));
+                    },
+                });
+                break;
+
             //index page
             default:
                 $('.index').show();

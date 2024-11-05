@@ -33,4 +33,14 @@
         <h2>{{ __('Create product') }}</h2>
         <form class="createProductForm" style="display: flex; flex-direction: column; width: fit-content; height: fit-content;"></form>
     </div>
+
+    <div class="page orders" style="margin: 10px;">
+        <h2>{{ __('Orders') }}</h2>
+        <table class="list" border="1" cellpadding="10"></table>
+    </div>
+
+    <div class="page order" style="margin: 10px;">
+        <h2>{{ __('Order') }}</h2>
+        <table class="list" border="1" cellpadding="10"></table>
+    </div>
 </x-layout>
