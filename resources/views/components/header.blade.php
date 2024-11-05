@@ -8,7 +8,7 @@
     @if (session("is_admin"))
         <div style="width: fit-content; height: fit-content;">
             <a href="#products" class="btn btn-dark">{{ __('Products') }}</a>
-            <a href="#create-product" class="btn btn-dark">{{ __('Create product') }}</a>
+            <a href="#create" class="btn btn-dark">{{ __('Create product') }}</a>
             <a href="#orders" class="btn btn-dark">{{ __('See orders') }}</a>
         </div>
 

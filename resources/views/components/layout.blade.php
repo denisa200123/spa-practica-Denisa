@@ -15,7 +15,8 @@
         @vite('resources/js/login.js')
         @vite('resources/js/products.js')
         @vite('resources/js/products-edit.js')
-        
+        @vite('resources/js/products-create.js')
+
         <style>
             img {
                 width: 150px;

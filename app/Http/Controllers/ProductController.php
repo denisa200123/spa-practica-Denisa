@@ -65,24 +65,29 @@ class ProductController extends Controller
                 'title' => 'required|string|max:255',
                 'price' => 'required|numeric|min:0',
                 'description' => 'required|string',
-                'image' => 'required|image',
+                //'image' => 'required|image',
             ]);
-
+            /*
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extension;
             $file->move('images/', $filename);
-
-            $info = ['title' => $request->title, 'price' => $request->price, 'description' => $request->description, 'image_path' => $filename];
+            */
+            $info = ['title' => $request->title, 'price' => $request->price, 'description' => $request->description];//, 'image_path' => $filename
 
             Product::create($info);
-            return redirect()->route('products.index')->with('success', __('Product created'));
+
+            if ($request->expectsJson()) {
+                return response()->json(['success' => 'Product created']);
+            }
+
+            return redirect()->route('index')->with('success', __('Product created'));
         } catch (\Exception $e) {
             return back()->withErrors(__('Product couldnt be created'));
         }
     }
 
-    //edit product
+    //edit product page
     public function edit(Request $request, $id)
     {
         try {
@@ -105,12 +110,12 @@ class ProductController extends Controller
                 'title' => 'string|max:255',
                 'price' => 'numeric|min:0',
                 'description' => 'string',
-                'image' => 'image',
+                //'image' => 'image',
             ]);
 
             $product = Product::findOrFail($id);
 
-            if ($request->hasFile('image')) {
+            /*if ($request->hasFile('image')) {
                 $destination = 'images/' . $product->image_path;
                 if (File::exists($destination)) {
                     File::delete($destination);
@@ -120,7 +125,7 @@ class ProductController extends Controller
                 $filename = time() . '.' . $extension;
                 $file->move('images/', $filename);
                 $product->image_path = $filename;
-            }
+            }*/
 
             $product->update($request->all());
             if ($request->expectsJson()) {
@@ -128,7 +133,7 @@ class ProductController extends Controller
             }
 
         } catch (\Exception $e) {
-            return redirect()->route('products.index')->withErrors(__('Product couldnt be edited'));
+            return redirect()->route('index');
         }
     }
 

@@ -26,6 +26,11 @@
 
     <div class="page edit" style="margin: 10px;">
         <h2>{{ __('Edit product') }}</h2>
-        <form class="editForm" style="display: flex; flex-direction: column; width: fit-content; height: fit-content;"></form>
+        <form class="editProductForm" style="display: flex; flex-direction: column; width: fit-content; height: fit-content;"></form>
+    </div>
+
+    <div class="page create" style="margin: 10px;">
+        <h2>{{ __('Create product') }}</h2>
+        <form class="createProductForm" style="display: flex; flex-direction: column; width: fit-content; height: fit-content;"></form>
     </div>
 </x-layout>

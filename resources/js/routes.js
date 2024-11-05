@@ -40,7 +40,7 @@ $(document).ready(function () {
     });
 
     //edit form
-    $('.editForm').on('submit', function (e) {
+    $('.editProductForm').on('submit', function (e) {
         e.preventDefault();
 
         let editData = $(this).serialize();
@@ -50,6 +50,23 @@ $(document).ready(function () {
             url: '/products/' + window.location.hash.split('#edit')[1],
             dataType: 'json',
             data: editData,
+            success: function () {
+                window.location.hash = "#products";
+            }
+        });
+    });
+
+    //create form
+    $('.createProductForm').on('submit', function (e) {
+        e.preventDefault();
+
+        let createData = $(this).serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: '/products',
+            dataType: 'json',
+            data: createData,
             success: function () {
                 window.location.hash = "#products";
             }
@@ -155,7 +172,17 @@ $(document).ready(function () {
                     url: '/products/' + productToEdit + '/edit',
                     dataType: 'json',
                     success: function (response) {
-                        $('.edit .editForm').html(renderEditForm(response));
+                        $('.edit .editProductForm').html(renderEditForm(response));
+                    },
+                });
+                break;
+
+            //create product page
+            case '#create':
+                $('.create').show();
+                $.ajax({
+                    success: function () {
+                        $('.create .createProductForm').html(renderCreateForm());
                     },
                 });
                 break;
