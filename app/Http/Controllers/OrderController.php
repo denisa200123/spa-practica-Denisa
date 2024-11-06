@@ -15,11 +15,12 @@ class OrderController extends Controller
             if ($request->expectsJson()) {
                 return response()->json($orders);
             }
-
-            return view('index');
         } catch (\Exception $e) {
-            return back()->withErrors('no orders');//to do
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'No orders'], 204);
+            }
         }
+        return view('index');
     }
 
     public function show(Request $request, $id)
@@ -27,13 +28,15 @@ class OrderController extends Controller
         try {
             $order = Order::findOrFail($id);
             $orderProducts = $order->products;
+
             if ($request->expectsJson()) {
                 return response()->json($orderProducts);
             }
-
-            return view('index');
         } catch (\Exception $e) {
-            return back()->withErrors(__('Did not find order'));//to do
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Did not find order'], 404);
+            }
         }
+        return view('index');
     }
 }

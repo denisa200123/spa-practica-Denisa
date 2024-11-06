@@ -6,7 +6,7 @@ $(document).ready(function () {
     });
 
     //not working
-    $(document).ajaxError(function (jqXHR) {
+    /*$(document).ajaxError(function (jqXHR) {
         //console.log(jqXHR.status);
         if (jqXHR.status === 403) {
             $('#error-message').text('Unauthorized').show();
@@ -15,7 +15,7 @@ $(document).ready(function () {
             $('#error-message').text('Page not found').show();
         }
         $('#error-message').fadeOut(2000);
-    });
+    });*/
 
     //checkout form
     $('.checkoutForm').on('submit', function (e) {
@@ -52,10 +52,8 @@ $(document).ready(function () {
                 window.location.hash = "#";
                 success(response.success);
             },
-            error: function (xhr, status, error) {
-                console.log(error);
-                //window.location.hash = "#";
-                showError(error);
+            error: function (xhr) {
+                showError(xhr.responseJSON.error);
             }
         });
     });
@@ -74,6 +72,9 @@ $(document).ready(function () {
             success: function (response) {
                 window.location.hash = "#products";
                 success(response.success);
+            },
+            error: function (xhr) {
+                showError(xhr.responseJSON.error);
             }
         });
     });
@@ -92,6 +93,9 @@ $(document).ready(function () {
             success: function (response) {
                 window.location.hash = "#products";
                 success(response.success);
+            },
+            error: function (xhr) {
+                showError(xhr.responseJSON.error);
             }
         });
     });
@@ -125,9 +129,9 @@ $(document).ready(function () {
                         window.location.hash = "#";
                         success(response.success);
                     },
-                    error: function (response) {
+                    error: function (xhr) {
                         window.location.hash = "#";
-                        error(response.error);
+                        showError(xhr.responseJSON.error);
                     }
                 });
                 break;
@@ -144,6 +148,10 @@ $(document).ready(function () {
                         window.location.hash = "#cart";
                         success(response.success);
                     },
+                    error: function (xhr) {
+                        window.location.hash = "#cart";
+                        showError(xhr.responseJSON.error);
+                    }
                 });
                 break;
 
@@ -199,6 +207,10 @@ $(document).ready(function () {
                         window.location.hash = "#products";
                         success(response.success);
                     },
+                    error: function (xhr) {
+                        window.location.hash = "#products";
+                        showError(xhr.responseJSON.error);
+                    }
                 });
                 break;
 
@@ -213,6 +225,10 @@ $(document).ready(function () {
                         $('.edit .editProductForm').html(renderEditForm(response));
                         document.title = 'Edit product page';
                     },
+                    error: function (xhr) {
+                        window.location.hash = "#products";
+                        showError(xhr.responseJSON.error);
+                    }
                 });
                 break;
 
@@ -239,6 +255,9 @@ $(document).ready(function () {
                         $('.orders .list').html(renderOrders(response));
                         document.title = 'Orders page';
                     },
+                    error: function (xhr) {
+                        showError(xhr.responseJSON.error);
+                    }
                 });
                 break;
 
@@ -252,6 +271,10 @@ $(document).ready(function () {
                         $('.order .list').html(renderOrder(response));
                         document.title = 'Order page';
                     },
+                    error: function (xhr) {
+                        window.location.hash = "#orders";
+                        showError(xhr.responseJSON.error);
+                    }
                 });
                 break;
 

@@ -31,7 +31,7 @@ class LoginController extends Controller
 
         if ($request->expectsJson()) {
             return response()->json(['error' => 'Invalid credentials!'], 401);
-        }//to do
+        }
 
         return view('index');
     }

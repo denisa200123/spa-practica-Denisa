@@ -88,11 +88,12 @@ class ProductController extends Controller
             if ($request->expectsJson()) {
                 return response()->json(['success' => 'Product created']);
             }
-
-            return view('index');
         } catch (\Exception $e) {
-            return back()->withErrors(__('Product couldnt be created'));//to do
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Product couldnt be created'], 400);
+            }
         }
+        return view('index');
     }
 
     //edit product page
@@ -104,10 +105,12 @@ class ProductController extends Controller
             if ($request->expectsJson()) {
                 return response()->json($product);
             }
-            return view('index');
         } catch (\Exception $e) {
-            return back()->withErrors(__('Did not find product'));//to do
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Did not find product'], 404);
+            }
         }
+        return view('index');
     }
 
     //update product
@@ -139,10 +142,12 @@ class ProductController extends Controller
             if ($request->expectsJson()) {
                 return response()->json(['success' => 'Product updated']);
             }
-            return view('index');
         } catch (\Exception $e) {
-            return redirect()->route('index');//to do
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Product couldnt be edited'], 400);
+            }
         }
+        return view('index');
     }
 
     //delete product
@@ -154,10 +159,12 @@ class ProductController extends Controller
             if ($request->expectsJson()) {
                 return response()->json(['success' => 'Product destroyed']);
             }
-            return view('index');
         } catch (\Exception $e) {
-            return back()->withErrors(__('Product couldnt be removed'));//to do
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Product couldnt be removed'], 400);
+            }
         }
+        return view('index');
     }
 
 }

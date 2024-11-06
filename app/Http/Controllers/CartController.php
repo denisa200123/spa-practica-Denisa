@@ -61,7 +61,7 @@ class CartController extends Controller
             }
         } catch (\Exception $e) {
             if ($request->expectsJson()) {
-                return response()->json(['error' => 'The selected product does not exist']);
+                return response()->json(['error' => 'The selected product does not exist'], 404);
             }
         }
         return view('index');
@@ -71,6 +71,8 @@ class CartController extends Controller
     public function clearCart(Request $request, $id)
     {
         try {
+            $product = Product::findOrFail($id);
+
             $this->initializeCart($request);
             $productsInCart = $request->session()->get('productsInCart', []);
 
@@ -81,10 +83,12 @@ class CartController extends Controller
             if ($request->expectsJson()) {
                 return response()->json(['success' => 'Product removed']);
             }
-            return view('index');
         } catch (\Exception $e) {
-            return back()->withErrors(__('The selected product does not exist'));//to do
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'The selected product does not exist'], 404);
+            }
         }
+        return view('index');
     }
 
     //send mail
