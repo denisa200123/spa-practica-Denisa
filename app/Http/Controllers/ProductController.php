@@ -56,6 +56,15 @@ class ProductController extends Controller
         return view('index');
     }
 
+    public function create(Request $request)
+    {
+        if ($request->expectsJson()) {
+            return response()->json();
+        }
+
+        return view('index');
+    }
+
     //store product
     public function store(Request $request)
     {

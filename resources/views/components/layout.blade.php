@@ -10,6 +10,7 @@
         
         @vite('resources/js/routes.js')
         @vite('resources/js/common.js')
+        @vite('resources/js/header-admin.js')
         @vite('resources/js/index.js')
         @vite('resources/js/cart.js')
         @vite('resources/js/login.js')

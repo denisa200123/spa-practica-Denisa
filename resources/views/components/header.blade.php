@@ -5,19 +5,12 @@
         <a href="#cart" class="btn btn-dark">{{ __('Your cart') }}</a>
     </div>
 
-    @if (session("is_admin"))
-        <div style="width: fit-content; height: fit-content;">
-            <a href="#products" class="btn btn-dark">{{ __('Products') }}</a>
-            <a href="#create" class="btn btn-dark">{{ __('Create product') }}</a>
-            <a href="#orders" class="btn btn-dark">{{ __('See orders') }}</a>
-        </div>
+    <div style="width: fit-content; height: fit-content;" class="admin-header">
+    </div>
 
-        <a href="#logout" style="margin-right: 10px;" class="btn btn-dark">{{ __('Logout') }}</a>
-    @else
-        <div style="width: fit-content; height: fit-content; margin-right: 10px;">
-            <a href="#login" class="btn btn-dark">{{ __('Admin login') }}</a>
-        </div>
-    @endif
+    <div style="width: fit-content; height: fit-content; margin-right: 10px;" class="auth-button">
+        <a href="#login" class="btn btn-dark">{{ __('Admin login') }}</a>
+    </div>
 </div>
 
 <form id="langform" action="{{ route('set.language') }}" method="post" style="width: fit-content; height: fit-content; margin-top:10px; margin-left: 10px;">

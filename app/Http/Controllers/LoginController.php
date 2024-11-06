@@ -6,6 +6,15 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
+    public function loginForm(Request $request)
+    {
+        if ($request->expectsJson()) {
+            return response()->json();
+        }
+
+        return view('index');
+    }
+
     public function login(Request $request)
     {
         $request->validate([

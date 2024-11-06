@@ -5,6 +5,18 @@ $(document).ready(function () {
         }
     });
 
+    //not working
+    $(document).ajaxError(function (jqXHR) {
+        console.log(jqXHR.status);
+        if (jqXHR.status === 403) {
+            $('#error-message').text('Unauthorized').show();
+            console.log("alert");
+        } else if (jqXHR.status === 404) {
+            $('#error-message').text('Page not found').show();
+        }
+        $('#error-message').fadeOut(2000);
+    });
+
     //checkout form
     $('.checkoutForm').on('submit', function (e) {
         e.preventDefault();
@@ -34,6 +46,8 @@ $(document).ready(function () {
             dataType: 'json',
             data: loginData,
             success: function () {
+                $('.admin-header').html(renderAdminHeader());
+                $('.auth-button').html('<a href="#logout" style="margin-right: 10px;" class="btn btn-dark">Logout</a>',);
                 window.location.hash = "#";
             }
         });
@@ -120,11 +134,13 @@ $(document).ready(function () {
 
             //login page
             case '#login':
-                $('.login').show();
                 $.ajax({
+                    url: '/login/form',
+                    dataType: 'json',
                     success: function () {
-                        document.title = 'Login';
+                        $('.login').show();
                         $('.login .loginForm').html(renderLoginForm());
+                        document.title = 'Login';
                     }
                 });
                 break;
@@ -135,6 +151,8 @@ $(document).ready(function () {
                     url: '/logout',
                     dataType: 'json',
                     success: function () {
+                        $('.admin-header').empty();
+                        $('.auth-button').html('<a href="#login" class="btn btn-dark">Admin login</a>');
                         window.location.hash = "#";
                     }
                 });
@@ -142,26 +160,26 @@ $(document).ready(function () {
 
             //products page
             case '#products':
-                $('.products').show();
                 $.ajax({
                     url: '/products',
                     dataType: 'json',
                     success: function (response) {
-                        document.title = 'Products page';
+                        $('.products').show();
                         $('.products .list').html(renderProducts(response));
-                    }
+                        document.title = 'Products page';
+                    },
                 });
                 break;
 
             //destroy product
             case (window.location.hash.match(/#delete\d+/) || {}).input:
-                $('.products').show();
                 let productToDelete = window.location.hash.split('#delete')[1];
                 $.ajax({
                     method: 'DELETE',
                     url: '/products/' + productToDelete,
                     dataType: 'json',
                     success: function () {
+                        $('.products').show();
                         window.location.hash = "#products";
                     },
                 });
@@ -169,51 +187,53 @@ $(document).ready(function () {
 
             //edit product page
             case (window.location.hash.match(/#edit\d+/) || {}).input:
-                $('.edit').show();
                 let productToEdit = window.location.hash.split('#edit')[1];
                 $.ajax({
                     url: '/products/' + productToEdit + '/edit',
                     dataType: 'json',
                     success: function (response) {
-                        document.title = 'Edit product page';
+                        $('.edit').show();
                         $('.edit .editProductForm').html(renderEditForm(response));
+                        document.title = 'Edit product page';
                     },
                 });
                 break;
 
             //create product page
             case '#create':
-                $('.create').show();
                 $.ajax({
+                    url: '/products/create',
+                    dataType: 'json',
                     success: function () {
-                        document.title = 'Create product page';
+                        $('.create').show();
                         $('.create .createProductForm').html(renderCreateForm());
+                        document.title = 'Create product page';
                     },
                 });
                 break;
 
             //orders page
             case '#orders':
-                $('.orders').show();
                 $.ajax({
                     url: '/orders',
                     dataType: 'json',
                     success: function (response) {
-                        document.title = 'Orders page';
+                        $('.orders').show();
                         $('.orders .list').html(renderOrders(response));
+                        document.title = 'Orders page';
                     },
                 });
                 break;
 
             //order page
             case (window.location.hash.match(/#order\d+/) || {}).input:
-                $('.order').show();
                 $.ajax({
                     url: '/orders/' + window.location.hash.split('#order')[1],
                     dataType: 'json',
                     success: function (response) {
-                        document.title = 'Order page';
+                        $('.order').show();
                         $('.order .list').html(renderOrder(response));
+                        document.title = 'Order page';
                     },
                 });
                 break;
@@ -232,5 +252,6 @@ $(document).ready(function () {
                 break;
         }
     }
+
     window.onhashchange();
 });

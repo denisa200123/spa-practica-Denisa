@@ -21,7 +21,7 @@ Route::middleware(['setLocale'])->group(function () {
     Route::middleware(['admin'])->group(function () {
         Route::controller(ProductController::class)->group(function () {
             Route::get('/products', 'index')->name('products.index');
-            //Route::get('/products/create', 'create')->name('products.create');
+            Route::get('/products/create', 'create')->name('products.create');
             Route::post('/products', 'store')->name('products.store');
             Route::get('/products/{product}/edit', 'edit')->name('products.edit');
             Route::patch('/products/{product}', 'update')->name('products.update');
@@ -32,7 +32,7 @@ Route::middleware(['setLocale'])->group(function () {
     });
 
     Route::controller(LoginController::class)->group(function () {
-        Route::view('/login', 'login')->name('login.form')->middleware('admin');
+        Route::get('/login/form', 'loginForm')->name('login.form')->middleware('admin');
         Route::post('/login', 'login')->name('login');
         Route::get('/logout', 'destroy')->name('login.destroy')->middleware('admin');
     });
