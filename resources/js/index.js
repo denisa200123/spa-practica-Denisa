@@ -16,7 +16,7 @@ window.renderIndex = function(products) {
                 '<td>' + product.description + '</td>',
                 '<td>' + product.price + '</td>',
                 '<td><img src=' + 'images/' + product.image_path + '></td>',
-                '<td><a href=#add' + product.id + '>Add</a></td>',
+                '<td><a href=#add/' + product.id + '>Add</a></td>',
             '</tr>'
         ].join('');
     });

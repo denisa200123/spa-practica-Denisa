@@ -7,7 +7,7 @@ $(document).ready(function () {
 
     //not working
     $(document).ajaxError(function (jqXHR) {
-        console.log(jqXHR.status);
+        //console.log(jqXHR.status);
         if (jqXHR.status === 403) {
             $('#error-message').text('Unauthorized').show();
             console.log("alert");
@@ -28,8 +28,9 @@ $(document).ready(function () {
             url: '/checkout',
             dataType: 'json',
             data: checkoutData,
-            success: function () {
+            success: function (response) {
                 window.location.hash = "#";
+                success(response.success);
             }
         });
     });
@@ -45,10 +46,16 @@ $(document).ready(function () {
             url: '/login',
             dataType: 'json',
             data: loginData,
-            success: function () {
+            success: function (response) {
                 $('.admin-header').html(renderAdminHeader());
-                $('.auth-button').html('<a href="#logout" style="margin-right: 10px;" class="btn btn-dark">Logout</a>',);
+                $('.auth-button').html('<a href="#logout" style="margin-right: 10px;" class="btn btn-dark">Logout</a>');
                 window.location.hash = "#";
+                success(response.success);
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+                //window.location.hash = "#";
+                showError(error);
             }
         });
     });
@@ -61,11 +68,12 @@ $(document).ready(function () {
 
         $.ajax({
             method: 'PATCH',
-            url: '/products/' + window.location.hash.split('#edit')[1],
+            url: '/products/' + window.location.hash.split('#edit/')[1],
             dataType: 'json',
             data: editData,
-            success: function () {
+            success: function (response) {
                 window.location.hash = "#products";
+                success(response.success);
             }
         });
     });
@@ -81,8 +89,9 @@ $(document).ready(function () {
             url: '/products',
             dataType: 'json',
             data: createData,
-            success: function () {
+            success: function (response) {
                 window.location.hash = "#products";
+                success(response.success);
             }
         });
     });
@@ -105,29 +114,35 @@ $(document).ready(function () {
                 break;
 
             //add product to cart
-            case (window.location.hash.match(/#add\d+/) || {}).input:
+            case (window.location.hash.match(/#add\/\d+/) || {}).input:
                 $('.index').show();
-                let addedProduct = window.location.hash.split('#add')[1];
+                let addedProduct = window.location.hash.split('#add/')[1];
                 $.ajax({
                     type: 'post',
                     url: '/cart/' + addedProduct + '/add',
                     dataType: 'json',
-                    success: function () {
+                    success: function (response) {
                         window.location.hash = "#";
+                        success(response.success);
                     },
+                    error: function (response) {
+                        window.location.hash = "#";
+                        error(response.error);
+                    }
                 });
                 break;
 
             //remove product from cart
-            case (window.location.hash.match(/#remove\d+/) || {}).input:
+            case (window.location.hash.match(/#remove\/\d+/) || {}).input:
                 $('.cart').show();
-                let removedProduct = window.location.hash.split('#remove')[1];
+                let removedProduct = window.location.hash.split('#remove/')[1];
                 $.ajax({
                     type: 'post',
                     url: '/cart/' + removedProduct + '/clear',
                     dataType: 'json',
-                    success: function () {
+                    success: function (response) {
                         window.location.hash = "#cart";
+                        success(response.success);
                     },
                 });
                 break;
@@ -150,10 +165,11 @@ $(document).ready(function () {
                 $.ajax({
                     url: '/logout',
                     dataType: 'json',
-                    success: function () {
+                    success: function (response) {
                         $('.admin-header').empty();
                         $('.auth-button').html('<a href="#login" class="btn btn-dark">Admin login</a>');
                         window.location.hash = "#";
+                        success(response.success);
                     }
                 });
                 break;
@@ -172,22 +188,23 @@ $(document).ready(function () {
                 break;
 
             //destroy product
-            case (window.location.hash.match(/#delete\d+/) || {}).input:
-                let productToDelete = window.location.hash.split('#delete')[1];
+            case (window.location.hash.match(/#delete\/\d+/) || {}).input:
+                let productToDelete = window.location.hash.split('#delete/')[1];
                 $.ajax({
                     method: 'DELETE',
                     url: '/products/' + productToDelete,
                     dataType: 'json',
-                    success: function () {
+                    success: function (response) {
                         $('.products').show();
                         window.location.hash = "#products";
+                        success(response.success);
                     },
                 });
                 break;
 
             //edit product page
-            case (window.location.hash.match(/#edit\d+/) || {}).input:
-                let productToEdit = window.location.hash.split('#edit')[1];
+            case (window.location.hash.match(/#edit\/\d+/) || {}).input:
+                let productToEdit = window.location.hash.split('#edit/')[1];
                 $.ajax({
                     url: '/products/' + productToEdit + '/edit',
                     dataType: 'json',
@@ -226,9 +243,9 @@ $(document).ready(function () {
                 break;
 
             //order page
-            case (window.location.hash.match(/#order\d+/) || {}).input:
+            case (window.location.hash.match(/#order\/\d+/) || {}).input:
                 $.ajax({
-                    url: '/orders/' + window.location.hash.split('#order')[1],
+                    url: '/orders/' + window.location.hash.split('#order/')[1],
                     dataType: 'json',
                     success: function (response) {
                         $('.order').show();
@@ -245,8 +262,8 @@ $(document).ready(function () {
                     url: '/',
                     dataType: 'json',
                     success: function (response) {
-                        document.title = 'Index';
                         $('.index .list').html(renderIndex(response));
+                        document.title = 'Index';
                     }
                 });
                 break;

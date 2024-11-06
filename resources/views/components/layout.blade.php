@@ -19,6 +19,7 @@
         @vite('resources/js/products-create.js')
         @vite('resources/js/orders.js')
         @vite('resources/js/order.js')
+        @vite('resources/js/validation-messages.js')
 
         <style>
             img {
@@ -28,6 +29,14 @@
 
             table {
                 width: 1000px;
+                height: fit-content;
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+                width: fit-content;
+                height: fit-content;
             }
         </style>
     </head>

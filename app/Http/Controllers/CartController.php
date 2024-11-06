@@ -26,7 +26,7 @@ class CartController extends Controller
         if ($request->expectsJson()) {
             return response()->json($products);
         }
-        return view('index',['products'=>$products]);
+        return view('index');//for non-ajax requests, redirect to main page
     }
 
     //see products in cart
@@ -40,13 +40,15 @@ class CartController extends Controller
         if ($request->expectsJson()) {
             return response()->json($products);
         }
-        return view('index'); //for non-ajax requests, redirect to main page
+        return view('index');
     }
 
     //add product to cart
     public function addCart(Request $request, $id)
     {
         try {
+            $product = Product::findOrFail($id);//check if id is a valid product
+
             $this->initializeCart($request);
             $productsInCart = collect($request->session()->get('productsInCart', []));
 
@@ -57,10 +59,12 @@ class CartController extends Controller
             if ($request->expectsJson()) {
                 return response()->json(['success' => 'Product added']);
             }
-            return view('index');
         } catch (\Exception $e) {
-            return back()->withErrors(__('The selected product does not exist'));
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'The selected product does not exist']);
+            }
         }
+        return view('index');
     }
 
     //remove from cart
@@ -79,7 +83,7 @@ class CartController extends Controller
             }
             return view('index');
         } catch (\Exception $e) {
-            return back()->withErrors(__('The selected product does not exist'));
+            return back()->withErrors(__('The selected product does not exist'));//to do
         }
     }
 

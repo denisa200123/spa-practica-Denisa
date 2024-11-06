@@ -20,7 +20,7 @@ window.renderOrders = function(orders) {
                 '<td>' + order.contact_details + '</td>',
                 '<td>' + order.comments + '</td>',
                 '<td>' + order.total_price + '</td>',
-                '<td><a href=#order' + order.id + '>See products</a></td>',
+                '<td><a href=#order/' + order.id + '>See products</a></td>',
             '</tr>'
         ].join('');
     });

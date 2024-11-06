@@ -89,9 +89,9 @@ class ProductController extends Controller
                 return response()->json(['success' => 'Product created']);
             }
 
-            return redirect()->route('index')->with('success', __('Product created'));
+            return view('index');
         } catch (\Exception $e) {
-            return back()->withErrors(__('Product couldnt be created'));
+            return back()->withErrors(__('Product couldnt be created'));//to do
         }
     }
 
@@ -106,7 +106,7 @@ class ProductController extends Controller
             }
             return view('index');
         } catch (\Exception $e) {
-            return back()->withErrors(__('Did not find product'));
+            return back()->withErrors(__('Did not find product'));//to do
         }
     }
 
@@ -139,22 +139,24 @@ class ProductController extends Controller
             if ($request->expectsJson()) {
                 return response()->json(['success' => 'Product updated']);
             }
-
+            return view('index');
         } catch (\Exception $e) {
-            return redirect()->route('index');
+            return redirect()->route('index');//to do
         }
     }
 
     //delete product
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
             $product = Product::findOrFail($id);
             $product->delete();
-
-            return response()->json(['success' => 'Product destroyed']);
+            if ($request->expectsJson()) {
+                return response()->json(['success' => 'Product destroyed']);
+            }
+            return view('index');
         } catch (\Exception $e) {
-            return back()->withErrors(__('Product couldnt be removed'));
+            return back()->withErrors(__('Product couldnt be removed'));//to do
         }
     }
 

@@ -16,7 +16,7 @@ window.renderCart = function(products) {
                 '<td>' + product.description + '</td>',
                 '<td>' + product.price + '</td>',
                 '<td><img src=' + 'images/' + product.image_path + '></td>',
-                '<td><a href=#remove' + product.id + '>Remove</a></td>',
+                '<td><a href=#remove/' + product.id + '>Remove</a></td>',
             '</tr>'
         ].join('');
     });

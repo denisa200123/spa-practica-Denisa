@@ -18,7 +18,7 @@ class OrderController extends Controller
 
             return view('index');
         } catch (\Exception $e) {
-            return back()->withErrors('no orders');
+            return back()->withErrors('no orders');//to do
         }
     }
 
@@ -33,7 +33,7 @@ class OrderController extends Controller
 
             return view('index');
         } catch (\Exception $e) {
-            return back()->withErrors(__('Did not find order'));
+            return back()->withErrors(__('Did not find order'));//to do
         }
     }
 }
