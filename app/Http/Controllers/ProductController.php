@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Session;
+use File;
 
 class ProductController extends Controller
 {
@@ -121,12 +122,12 @@ class ProductController extends Controller
                 'title' => 'string|max:255',
                 'price' => 'numeric|min:0',
                 'description' => 'string',
-                //'image' => 'image',
+                'image' => 'image',
             ]);
 
             $product = Product::findOrFail($id);
 
-            /*if ($request->hasFile('image')) {
+            if ($request->hasFile('image')) {
                 $destination = 'images/' . $product->image_path;
                 if (File::exists($destination)) {
                     File::delete($destination);
@@ -136,9 +137,10 @@ class ProductController extends Controller
                 $filename = time() . '.' . $extension;
                 $file->move('images/', $filename);
                 $product->image_path = $filename;
-            }*/
+            }
 
             $product->update($request->all());
+
             if ($request->expectsJson()) {
                 return response()->json(['success' => 'Product updated']);
             }

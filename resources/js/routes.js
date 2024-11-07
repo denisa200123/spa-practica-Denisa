@@ -62,13 +62,26 @@ $(document).ready(function () {
     $('.editProductForm').on('submit', function (e) {
         e.preventDefault();
 
-        let editData = $(this).serialize();
+        let editForm = new FormData();
+        editForm.append('_method', 'PATCH');
+
+        editForm.append('title', $('#title').val());
+        editForm.append('description', $('#description').val());
+        editForm.append('price', $('#price').val());
+
+        if ($('#image')[0].files[0]) {
+            editForm.append('image', $('#image')[0].files[0]);
+        }
 
         $.ajax({
-            method: 'PATCH',
+            type: 'POST',
             url: '/products/' + window.location.hash.split('#edit/')[1],
             dataType: 'json',
-            data: editData,
+            data: editForm,
+            enctype: 'multipart/form-data',
+            contentType: false,
+            processData: false,
+            cache: false,
             success: function (response) {
                 window.location.hash = "#products";
                 success(response.success);
