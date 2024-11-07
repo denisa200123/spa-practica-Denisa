@@ -1,10 +1,7 @@
 window.renderCart = function(products) {
     let html = [
         '<tr>',
-            '<th>Title</th>',
-            '<th>Description</th>',
-            '<th>Price</th>',
-            '<th>Image</th>',
+            displayProductDetails(),
             '<th>Remove</th>',
         '</tr>'
     ].join('');
@@ -12,10 +9,7 @@ window.renderCart = function(products) {
     $.each(products, function (key, product) {
         html += [
             '<tr>',
-                '<td>' + product.title + '</td>',
-                '<td>' + product.description + '</td>',
-                '<td>' + product.price + '</td>',
-                '<td><img src=' + 'images/' + product.image_path + '></td>',
+                displayProduct(product),
                 '<td><a href=#remove/' + product.id + '>Remove</a></td>',
             '</tr>'
         ].join('');

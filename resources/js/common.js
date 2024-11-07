@@ -1,12 +1,40 @@
-function displayProductDetails() {
+window.displayProductDetails = function() {
     let html = [
-        '<tr>',
-            '<th>Title</th>',
-            '<th>Description</th>',
-            '<th>Price</th>',
-            '<th>Image</th>',
-            '<th>Add</th>',
-        '</tr>'
+        '<th>Title</th>',
+        '<th>Description</th>',
+        '<th>Price</th>',
+        '<th>Image</th>',
     ]
     return html;
+}
+
+window.displayProduct = function(product) {
+    let html = [
+        '<td>' + product.title + '</td>',
+        '<td>' + product.description + '</td>',
+        '<td>' + product.price + '</td>',
+        '<td><img src=' + 'images/' + product.image_path + '></td>',
+    ]
+    return html;
+}
+
+window.updateHeader = function(){
+    $.ajax({
+        url: '/header',
+        success: function (html) {
+            $('header').html(html);
+        }
+    });
+}
+
+window.success = function(message) {
+    $('.success').html(message);
+    $('.success').css('display', 'block');
+    $('.success').fadeOut(2000);
+}
+
+window.showError = function(message) {
+    $('.error').html(message);
+    $('.error').css('display', 'block');
+    $('.error').fadeOut(2000);
 }

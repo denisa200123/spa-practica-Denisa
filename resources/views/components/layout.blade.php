@@ -18,8 +18,6 @@
         @vite('resources/js/products-create.js')
         @vite('resources/js/orders.js')
         @vite('resources/js/order.js')
-        @vite('resources/js/validation-messages.js')
-        @vite('resources/js/update-header.js')
 
         <style>
             img {
