@@ -1,8 +1,6 @@
 <x-layout>
     <x-header />
 
-    <div id="error-message" style="display: none; color: red; margin: 10px;"></div>
-
     <div class="page index" style="margin: 10px;">
         <h2>{{ __('What you can buy:') }}</h2>
         <table class="list" border="1" cellpadding="10"></table>

@@ -5,18 +5,6 @@ $(document).ready(function () {
         }
     });
 
-    //not working
-    /*$(document).ajaxError(function (jqXHR) {
-        //console.log(jqXHR.status);
-        if (jqXHR.status === 403) {
-            $('#error-message').text('Unauthorized').show();
-            console.log("alert");
-        } else if (jqXHR.status === 404) {
-            $('#error-message').text('Page not found').show();
-        }
-        $('#error-message').fadeOut(2000);
-    });*/
-
     //checkout form
     $('.checkoutForm').on('submit', function (e) {
         e.preventDefault();
@@ -47,8 +35,7 @@ $(document).ready(function () {
             dataType: 'json',
             data: loginData,
             success: function (response) {
-                $('.admin-header').html(renderAdminHeader());
-                $('.auth-button').html('<a href="#logout" style="margin-right: 10px;" class="btn btn-dark">Logout</a>');
+                updateHeader();
                 window.location.hash = "#";
                 success(response.success);
             },
@@ -196,8 +183,7 @@ $(document).ready(function () {
                     url: '/logout',
                     dataType: 'json',
                     success: function (response) {
-                        $('.admin-header').empty();
-                        $('.auth-button').html('<a href="#login" class="btn btn-dark">Admin login</a>');
+                        updateHeader();
                         window.location.hash = "#";
                         success(response.success);
                     }

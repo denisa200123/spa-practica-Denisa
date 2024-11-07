@@ -1,24 +1,37 @@
-<br>
-<div style="display: flex; justify-content:space-between; align-items:center;">
-    <div style="width: fit-content; height: fit-content; margin-left: 10px;">
-        <a href="#" class="btn btn-dark">{{ __('Home') }}</a>
-        <a href="#cart" class="btn btn-dark">{{ __('Your cart') }}</a>
+<header>
+    <br>
+    <div style="display: flex; justify-content:space-between; align-items:center;">
+        <div style="width: fit-content; height: fit-content; margin-left: 10px;">
+            <a href="#" class="btn btn-dark">{{ __('Home') }}</a>
+            <a href="#cart" class="btn btn-dark">{{ __('Your cart') }}</a>
+        </div>
+        
+        @if (session("is_admin"))
+            <div style="width: fit-content; height: fit-content;">
+                <div style="width: fit-content; height: fit-content;">
+                    <a href="#products" class="btn btn-dark">Products</a>
+                    <a href="#create" class="btn btn-dark" style="margin-left: 10px;">Create product</a>
+                    <a href="#orders" class="btn btn-dark" style="margin-left: 10px;">See orders</a>
+                </div>
+            </div>
+
+            <div style="width: fit-content; height: fit-content; margin-right: 10px;">
+                <a href="#logout" class="btn btn-dark">{{ __('Logout') }}</a>
+            </div>
+        @else
+            <div style="width: fit-content; height: fit-content; margin-right: 10px;">
+                <a href="#login" class="btn btn-dark">{{ __('Admin login') }}</a>
+            </div>
+        @endif
     </div>
 
-    <div style="width: fit-content; height: fit-content;" class="admin-header">
-    </div>
+    <form id="langform" action="{{ route('set.language') }}" method="post" style="width: fit-content; height: fit-content; margin-top:10px; margin-left: 10px;">
+        @csrf
+        <select name="lang" id="lang" onchange="this.form.submit()">
+            <option value="en" @if (session('locale', 'en') == 'en') selected @endif>{{ __('English') }}</option>
+            <option value="ro" @if (session('locale') == 'ro') selected @endif>{{ __('Romanian') }}</option>
+        </select>
+    </form>
 
-    <div style="width: fit-content; height: fit-content; margin-right: 10px;" class="auth-button">
-        <a href="#login" class="btn btn-dark">{{ __('Admin login') }}</a>
-    </div>
-</div>
-
-<form id="langform" action="{{ route('set.language') }}" method="post" style="width: fit-content; height: fit-content; margin-top:10px; margin-left: 10px;">
-    @csrf
-    <select name="lang" id="lang" onchange="this.form.submit()">
-        <option value="en" @if (session('locale', 'en') == 'en') selected @endif>{{ __('English') }}</option>
-        <option value="ro" @if (session('locale') == 'ro') selected @endif>{{ __('Romanian') }}</option>
-    </select>
-</form>
-
-<br><hr>
+    <br><hr>
+</header>

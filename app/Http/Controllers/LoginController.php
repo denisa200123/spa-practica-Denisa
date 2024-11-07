@@ -46,4 +46,9 @@ class LoginController extends Controller
 
         return view('index');
     }
+
+    public function header()
+    {
+        return view('components/header')->render();
+    }
 }

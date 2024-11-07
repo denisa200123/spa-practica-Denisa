@@ -6,7 +6,6 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\LanguageController;
-use App\Models\Order;
 
 Route::middleware(['setLocale'])->group(function () {
 
@@ -34,6 +33,7 @@ Route::middleware(['setLocale'])->group(function () {
     Route::controller(LoginController::class)->group(function () {
         Route::get('/login/form', 'loginForm')->name('login.form')->middleware('admin');
         Route::post('/login', 'login')->name('login');
+        Route::get('/header', 'header')->name('header');
         Route::get('/logout', 'destroy')->name('login.destroy')->middleware('admin');
     });
 
