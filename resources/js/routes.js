@@ -39,8 +39,9 @@ $(document).ready(function () {
                 window.location.hash = "#";
                 success(response.success);
             },
-            error: function (xhr) {
-                showError(xhr.responseJSON.error);
+            error: function (response) {
+                showError(response.responseJSON.error);
+                console.log(response.responseJSON);
             }
         });
     });
@@ -198,6 +199,7 @@ $(document).ready(function () {
                     success: function (response) {
                         $('.products').show();
                         $('.products .list').html(renderProducts(response));
+                        $('.products .searchProduct').html(searchProduct());
                         document.title = 'Products page';
                     },
                 });
@@ -283,6 +285,18 @@ $(document).ready(function () {
                         window.location.hash = "#orders";
                         showError(xhr.responseJSON.error);
                     }
+                });
+                break;
+
+            //search product
+            case '#search':
+                $.ajax({
+                    url: '/products/search/',
+                    dataType: 'json',
+                    success: function (response) {
+                        console.log(response);
+                        document.title = 'Products found';
+                    },
                 });
                 break;
 

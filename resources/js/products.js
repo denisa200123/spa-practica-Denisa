@@ -19,3 +19,12 @@ window.renderProducts = function(products) {
 
     return html;
 }
+
+window.searchProduct = function() {
+    let html = [
+        '<input type="text" name="searchedProduct" id="searchedProduct" placeholder="Search product">',
+        '<a href="#search" class="btn btn-info">Search</a>'
+    ].join('');
+
+    return html;
+}

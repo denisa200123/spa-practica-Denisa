@@ -39,6 +39,9 @@ class ProductController extends Controller
 
         $products = Product::where('title', 'like', "%$name%")->get();
         if ($products && count($products) > 0 && $name) {
+            if ($request->expectsJson()) {
+                return response()->json($products);
+            }
             return view('/products-search', ['products' => $products]);
         }
         return redirect()->route('products.index')->withErrors(__('Product not found'));
