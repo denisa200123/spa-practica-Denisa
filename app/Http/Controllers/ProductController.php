@@ -74,15 +74,14 @@ class ProductController extends Controller
                 'title' => 'required|string|max:255',
                 'price' => 'required|numeric|min:0',
                 'description' => 'required|string',
-                //'image' => 'required|image',
+                'image' => 'required|image',
             ]);
-            /*
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extension;
             $file->move('images/', $filename);
-            */
-            $info = ['title' => $request->title, 'price' => $request->price, 'description' => $request->description];//, 'image_path' => $filename
+
+            $info = ['title' => $request->title, 'price' => $request->price, 'description' => $request->description, 'image_path' => $filename];
 
             Product::create($info);
 

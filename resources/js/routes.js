@@ -96,13 +96,22 @@ $(document).ready(function () {
     $('.createProductForm').on('submit', function (e) {
         e.preventDefault();
 
-        let createData = $(this).serialize();
+        let createForm = new FormData();
+
+        createForm.append('title', $('#title').val());
+        createForm.append('description', $('#description').val());
+        createForm.append('price', $('#price').val());
+        createForm.append('image', $('#image')[0].files[0]);
 
         $.ajax({
             type: 'POST',
             url: '/products',
             dataType: 'json',
-            data: createData,
+            data: createForm,
+            enctype: 'multipart/form-data',
+            contentType: false,
+            processData: false,
+            cache: false,
             success: function (response) {
                 window.location.hash = "#products";
                 success(response.success);
