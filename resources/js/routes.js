@@ -19,6 +19,15 @@ $(document).ready(function () {
             success: function (response) {
                 window.location.hash = "#";
                 success(response.success);
+            },
+            error: function (response) {
+                $('.laravelErrors').remove();
+                if (response.responseJSON.errors) {
+                    $.each(response.responseJSON.errors, function (field, errors) {
+                        let errorHtml = `<div class="laravelErrors alert-danger">${errors[0]}</div>`;
+                        $(`#${field}`).after(errorHtml);
+                    });
+                }
             }
         });
     });
@@ -40,7 +49,18 @@ $(document).ready(function () {
                 success(response.success);
             },
             error: function (response) {
-                showError(response.responseJSON.error);
+                $('.laravelError').remove();
+
+                if (response.responseJSON.errors) {
+                    $.each(response.responseJSON.errors, function (field, errors) {
+                        let errorHtml = `<div class="laravelError alert-danger">${errors[0]}</div>`;
+                        $(`#${field}`).after(errorHtml);
+                    });
+                }
+
+                if (response.responseJSON.error) {
+                    showError(response.responseJSON.error);
+                }
             }
         });
     });
@@ -73,8 +93,15 @@ $(document).ready(function () {
                 window.location.hash = "#products";
                 success(response.success);
             },
-            error: function (xhr) {
-                showError(xhr.responseJSON.error);
+            error: function (response) {
+                $('.laravelError').remove();
+
+                if (response.responseJSON.errors) {
+                    $.each(response.responseJSON.errors, function (field, errors) {
+                        let errorHtml = `<div class="laravelError alert-danger">${errors[0]}</div>`;
+                        $(`#${field}`).after(errorHtml);
+                    });
+                }
             }
         });
     });
@@ -103,8 +130,15 @@ $(document).ready(function () {
                 window.location.hash = "#products";
                 success(response.success);
             },
-            error: function (xhr) {
-                showError(xhr.responseJSON.error);
+            error: function (response) {
+                $('.laravelError').remove();
+
+                if (response.responseJSON.errors) {
+                    $.each(response.responseJSON.errors, function (field, errors) {
+                        let errorHtml = `<div class="laravelError alert-danger">${errors[0]}</div>`;
+                        $(`#${field}`).after(errorHtml);
+                    });
+                }
             }
         });
     });
@@ -113,7 +147,9 @@ $(document).ready(function () {
     $('.searchProductForm').on('submit', function (e) {
         e.preventDefault();
         let searchedProduct = $('#searchedProduct').val();
-        window.location.hash = "#products-found/" + searchedProduct;
+        if (searchedProduct) {
+            window.location.hash = "#products-found/" + searchedProduct;
+        }
     });
 
     //order products form
@@ -130,7 +166,18 @@ $(document).ready(function () {
                 $('.products .list').html(renderProducts(response));
             },
             error: function (response) {
-                showError(response.responseJSON.error);
+                $('.laravelError').remove();
+
+                if (response.responseJSON.errors) {
+                    $.each(response.responseJSON.errors, function (field, errors) {
+                        let errorHtml = `<div class="laravelError alert-danger">${errors[0]}</div>`;
+                        $(`#${field}`).after(errorHtml);
+                    });
+                }
+
+                if (response.responseJSON.error) {
+                    showError(response.responseJSON.error);
+                }
             }
         });
     });
@@ -164,9 +211,9 @@ $(document).ready(function () {
                         window.location.hash = "#";
                         success(response.success);
                     },
-                    error: function (xhr) {
+                    error: function (response) {
                         window.location.hash = "#";
-                        showError(xhr.responseJSON.error);
+                        showError(response.responseJSON.error);
                     }
                 });
                 break;
@@ -183,9 +230,9 @@ $(document).ready(function () {
                         window.location.hash = "#cart";
                         success(response.success);
                     },
-                    error: function (xhr) {
+                    error: function (response) {
                         window.location.hash = "#cart";
-                        showError(xhr.responseJSON.error);
+                        showError(response.responseJSON.error);
                     }
                 });
                 break;
@@ -243,9 +290,9 @@ $(document).ready(function () {
                         window.location.hash = "#products";
                         success(response.success);
                     },
-                    error: function (xhr) {
+                    error: function (response) {
                         window.location.hash = "#products";
-                        showError(xhr.responseJSON.error);
+                        showError(response.responseJSON.error);
                     }
                 });
                 break;
@@ -261,9 +308,9 @@ $(document).ready(function () {
                         $('.edit .editProductForm').html(renderEditForm(response));
                         document.title = 'Edit product page';
                     },
-                    error: function (xhr) {
+                    error: function (response) {
                         window.location.hash = "#products";
-                        showError(xhr.responseJSON.error);
+                        showError(response.responseJSON.error);
                     }
                 });
                 break;
@@ -291,8 +338,8 @@ $(document).ready(function () {
                         $('.orders .list').html(renderOrders(response));
                         document.title = 'Orders page';
                     },
-                    error: function (xhr) {
-                        showError(xhr.responseJSON.error);
+                    error: function (response) {
+                        showError(response.responseJSON.error);
                     }
                 });
                 break;
@@ -307,9 +354,9 @@ $(document).ready(function () {
                         $('.order .list').html(renderProduct(response));
                         document.title = 'Order page';
                     },
-                    error: function (xhr) {
+                    error: function (response) {
                         window.location.hash = "#orders";
-                        showError(xhr.responseJSON.error);
+                        showError(response.responseJSON.error);
                     }
                 });
                 break;
@@ -325,9 +372,9 @@ $(document).ready(function () {
                         $('.products-found .list').html(renderProduct(response));
                         document.title = 'Products found';
                     },
-                    error: function (xhr) {
+                    error: function (response) {
                         window.location.hash = "#products";
-                        showError(xhr.responseJSON.error);
+                        showError(response.responseJSON.error);
                     }
                 });
                 break;

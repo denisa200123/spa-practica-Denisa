@@ -40,15 +40,11 @@ class ProductController extends Controller
     //search product
     public function search(Request $request, $name)
     {
-        try {
-            $products = Product::where('title', 'like', "%$name%")->get();
-            if ($products && count($products) > 0 && $name && $request->expectsJson()) {
-                return response()->json($products);
-            }
-        } catch (\Throwable $th) {
-            if ($request->expectsJson()) {
-                return response()->json(['error' => 'Product not found'], 404);
-            }
+        $products = Product::where('title', 'like', "%$name%")->get();
+        if ($products && count($products) > 0 && $name && $request->expectsJson()) {
+            return response()->json($products);
+        } else if ($request->expectsJson()) {
+            return response()->json(['error' => 'Product not found'], 404);
         }
         return view('index');
     }
@@ -66,6 +62,7 @@ class ProductController extends Controller
         return view('index');
     }
 
+    //create product page
     public function create(Request $request)
     {
         if ($request->expectsJson()) {
@@ -78,30 +75,25 @@ class ProductController extends Controller
     //store product
     public function store(Request $request)
     {
-        try {
-            $request->validate([
-                'title' => 'required|string|max:255',
-                'price' => 'required|numeric|min:0',
-                'description' => 'required|string',
-                'image' => 'required|image',
-            ]);
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $extension;
-            $file->move('images/', $filename);
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'description' => 'required|string',
+            'image' => 'required|image',
+        ]);
+        $file = $request->file('image');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . '.' . $extension;
+        $file->move('images/', $filename);
 
-            $info = ['title' => $request->title, 'price' => $request->price, 'description' => $request->description, 'image_path' => $filename];
+        $info = ['title' => $request->title, 'price' => $request->price, 'description' => $request->description, 'image_path' => $filename];
 
-            Product::create($info);
+        Product::create($info);
 
-            if ($request->expectsJson()) {
-                return response()->json(['success' => 'Product created']);
-            }
-        } catch (\Exception $e) {
-            if ($request->expectsJson()) {
-                return response()->json(['error' => 'Product couldnt be created'], 400);
-            }
+        if ($request->expectsJson()) {
+            return response()->json(['success' => 'Product created']);
         }
+
         return view('index');
     }
 
@@ -125,38 +117,33 @@ class ProductController extends Controller
     //update product
     public function update(Request $request, $id)
     {
-        try {
-            $request->validate([
-                'title' => 'string|max:255',
-                'price' => 'numeric|min:0',
-                'description' => 'string',
-                'image' => 'image',
-            ]);
+        $request->validate([
+            'title' => 'string|max:255',
+            'price' => 'numeric|min:0',
+            'description' => 'string',
+            'image' => 'image',
+        ]);
 
-            $product = Product::findOrFail($id);
+        $product = Product::findOrFail($id);
 
-            if ($request->hasFile('image')) {
-                $destination = 'images/' . $product->image_path;
-                if (File::exists($destination)) {
-                    File::delete($destination);
-                }
-                $file = $request->file('image');
-                $extension = $file->getClientOriginalExtension();
-                $filename = time() . '.' . $extension;
-                $file->move('images/', $filename);
-                $product->image_path = $filename;
+        if ($request->hasFile('image')) {
+            $destination = 'images/' . $product->image_path;
+            if (File::exists($destination)) {
+                File::delete($destination);
             }
-
-            $product->update($request->all());
-
-            if ($request->expectsJson()) {
-                return response()->json(['success' => 'Product updated']);
-            }
-        } catch (\Exception $e) {
-            if ($request->expectsJson()) {
-                return response()->json(['error' => 'Product couldnt be edited'], 400);
-            }
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->move('images/', $filename);
+            $product->image_path = $filename;
         }
+
+        $product->update($request->all());
+
+        if ($request->expectsJson()) {
+            return response()->json(['success' => 'Product updated']);
+        }
+
         return view('index');
     }
 
