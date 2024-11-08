@@ -12,36 +12,43 @@ class ProductController extends Controller
     //order products
     public function order(Request $request)
     {
-        $request->validate(['orderBy' => 'string|max:20|min:1|in:title,price,description,none']);
-        $orderBy = $request->orderBy;
+        try {
+            $request->validate(['orderBy' => 'string|max:20|min:1|in:title,price,description,none']);
+            $orderBy = $request->orderBy;
 
-        if ($orderBy) {
-            Session::put('orderBy', $orderBy);
-        }
+            if ($orderBy) {
+                Session::put('orderBy', $orderBy);
+            }
 
-        if (Session::get('orderBy') === 'none') {
-            $products = Product::paginate(3);
-        } else {
-            $products = Product::orderBy(Session::get('orderBy'), 'asc')->paginate(3);
-        }
+            if (Session::get('orderBy') === 'none') {
+                $products = Product::all();
+            } else {
+                $products = Product::orderBy(Session::get('orderBy'), 'asc')->get();
+            }
 
-        if ($products && count($products)>0) {
-            return view('products', ['products' => $products]);
+            if ($products && count($products)>0 && $request->expectsJson()) {
+                return response()->json($products);
+            }
+        } catch (\Throwable $th) {
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Invalid select'], 400);
+            }
         }
-        return redirect()->route('products.index');
+        return view('index');
     }
 
     //search product
     public function search(Request $request, $name)
     {
-        $products = Product::where('title', 'like', "%$name%")->get();
-        if ($products && count($products) > 0 && $name) {
-            if ($request->expectsJson()) {
+        try {
+            $products = Product::where('title', 'like', "%$name%")->get();
+            if ($products && count($products) > 0 && $name && $request->expectsJson()) {
                 return response()->json($products);
             }
-        }
-        if ($request->expectsJson()) {
-            return response()->json(['error' => 'Product not found'], 404);
+        } catch (\Throwable $th) {
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Product not found'], 404);
+            }
         }
         return view('index');
     }

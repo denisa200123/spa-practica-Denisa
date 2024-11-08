@@ -21,7 +21,9 @@
 
     <div class="page products" style="margin: 10px;">
         <h2>{{ __('All the products:') }}</h2>
-        <form class="searchProduct" style="width: fit-content; height: fit-content; display: flex"></form>
+        <form class="searchProductForm" style="width: fit-content; height: fit-content; display: flex"></form>
+        <br>
+        <form class="orderForm" style="width: fit-content; height: fit-content;"></form>
         <br>
         <table class="list" border="1" cellpadding="10"></table>
     </div>

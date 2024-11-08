@@ -16,7 +16,7 @@
         @vite('resources/js/products.js')
         @vite('resources/js/products-edit.js')
         @vite('resources/js/products-create.js')
-        @vite('resources/js/order.js')
+        @vite('resources/js/orders.js')
 
         <style>
             img {

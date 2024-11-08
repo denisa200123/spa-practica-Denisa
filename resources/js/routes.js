@@ -41,7 +41,6 @@ $(document).ready(function () {
             },
             error: function (response) {
                 showError(response.responseJSON.error);
-                console.log(response.responseJSON);
             }
         });
     });
@@ -111,10 +110,29 @@ $(document).ready(function () {
     });
 
     //search product form
-    $('.searchProduct').on('submit', function (e) {
+    $('.searchProductForm').on('submit', function (e) {
         e.preventDefault();
         let searchedProduct = $('#searchedProduct').val();
         window.location.hash = "#products-found/" + searchedProduct;
+    });
+
+    //order products form
+    $('.orderForm').on('submit', function (e) {
+        e.preventDefault();
+
+        let orderData = $(this).serialize();
+
+        $.ajax({
+            url: '/products/order',
+            dataType: 'json',
+            data: orderData,
+            success: function (response) {
+                $('.products .list').html(renderProducts(response));
+            },
+            error: function (response) {
+                showError(response.responseJSON.error);
+            }
+        });
     });
 
     window.onhashchange = function () {
@@ -206,7 +224,8 @@ $(document).ready(function () {
                     success: function (response) {
                         $('.products').show();
                         $('.products .list').html(renderProducts(response));
-                        $('.products .searchProduct').html(searchProduct());
+                        $('.products .searchProductForm').html(searchProductForm());
+                        $('.products .orderForm').html(orderForm());
                         document.title = 'Products page';
                     },
                 });
