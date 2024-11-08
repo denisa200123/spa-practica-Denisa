@@ -23,7 +23,7 @@ window.renderProducts = function(products) {
 window.searchProduct = function() {
     let html = [
         '<input type="text" name="searchedProduct" id="searchedProduct" placeholder="Search product">',
-        '<a href="#search" class="btn btn-info">Search</a>'
+        '<input type="submit" value="Search" class="btn btn-info">'
     ].join('');
 
     return html;

@@ -38,3 +38,21 @@ window.showError = function(message) {
     $('.error').css('display', 'block');
     $('.error').fadeOut(2000);
 }
+
+window.renderProduct = function(orderProducts) {
+    let html = [
+        '<tr>',
+            displayProductDetails(),
+        '</tr>'
+        ].join('');
+
+        $.each(orderProducts, function (key, product) {
+            html += [
+                '<tr>',
+                    displayProduct(product),
+                '</tr>'
+            ].join('');
+        });
+
+    return html;
+}

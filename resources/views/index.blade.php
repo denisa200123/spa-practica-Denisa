@@ -46,6 +46,11 @@
         <table class="list" border="1" cellpadding="10"></table>
     </div>
 
+    <div class="page products-found" style="margin: 10px;">
+        <h2>{{ __('Products found') }}</h2>
+        <table class="list" border="1" cellpadding="10"></table>
+    </div>
+
     <p class="success alert alert-success" style="display: none;"></p>
     <p class="error alert alert-danger" style="display: none;"></p>
 </x-layout>

@@ -32,19 +32,18 @@ class ProductController extends Controller
     }
 
     //search product
-    public function search(Request $request)
+    public function search(Request $request, $name)
     {
-        $request->validate(['searchedProduct' => 'string|max:255|min:1']);
-        $name = $request->searchedProduct;
-
         $products = Product::where('title', 'like', "%$name%")->get();
         if ($products && count($products) > 0 && $name) {
             if ($request->expectsJson()) {
                 return response()->json($products);
             }
-            return view('/products-search', ['products' => $products]);
         }
-        return redirect()->route('products.index')->withErrors(__('Product not found'));
+        if ($request->expectsJson()) {
+            return response()->json(['error' => 'Product not found'], 404);
+        }
+        return view('index');
     }
 
     //display all products

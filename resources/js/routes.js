@@ -110,6 +110,13 @@ $(document).ready(function () {
         });
     });
 
+    //search product form
+    $('.searchProduct').on('submit', function (e) {
+        e.preventDefault();
+        let searchedProduct = $('#searchedProduct').val();
+        window.location.hash = "#products-found/" + searchedProduct;
+    });
+
     window.onhashchange = function () {
         $('.page').hide();
 
@@ -278,7 +285,7 @@ $(document).ready(function () {
                     dataType: 'json',
                     success: function (response) {
                         $('.order').show();
-                        $('.order .list').html(renderOrder(response));
+                        $('.order .list').html(renderProduct(response));
                         document.title = 'Order page';
                     },
                     error: function (xhr) {
@@ -288,15 +295,21 @@ $(document).ready(function () {
                 });
                 break;
 
-            //search product
-            case '#search':
+            //products found
+            case (window.location.hash.match(/#products-found\/[^\/]+/) || {}).input:
+                let productToSearch = window.location.hash.split('#products-found/')[1];
                 $.ajax({
-                    url: '/products/search/',
+                    url: '/products/search/' + productToSearch,
                     dataType: 'json',
                     success: function (response) {
-                        console.log(response);
+                        $('.products-found').show();
+                        $('.products-found .list').html(renderProduct(response));
                         document.title = 'Products found';
                     },
+                    error: function (xhr) {
+                        window.location.hash = "#products";
+                        showError(xhr.responseJSON.error);
+                    }
                 });
                 break;
 
