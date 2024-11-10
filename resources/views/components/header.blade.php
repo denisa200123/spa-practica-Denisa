@@ -25,12 +25,12 @@
         @endif
     </div>
 
-    <form id="langform" action="{{ route('set.language') }}" method="post" style="width: fit-content; height: fit-content; margin-top:10px; margin-left: 10px;">
-        @csrf
-        <select name="lang" id="lang" onchange="this.form.submit()">
+    <form id="languageForm" style="width: fit-content; height: fit-content; margin-top:10px; margin-left: 10px;">
+        <select name="lang" id="lang">
             <option value="en" @if (session('locale', 'en') == 'en') selected @endif>{{ __('English') }}</option>
             <option value="ro" @if (session('locale') == 'ro') selected @endif>{{ __('Romanian') }}</option>
         </select>
+        <button type="submit" class="btn btn-dark">Change language</button>
     </form>
 
     <br><hr>

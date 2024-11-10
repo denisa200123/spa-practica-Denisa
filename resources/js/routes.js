@@ -183,6 +183,23 @@ $(document).ready(function () {
         });
     });
 
+    //change language form
+    $('#languageForm').on('submit', function (e) {
+        e.preventDefault();
+
+        let languageData = $(this).serialize();
+
+        $.ajax({
+            url: '/set-language',
+            type: 'post',
+            dataType: 'json',
+            data: languageData,
+            success: function (response) {
+                location.reload();
+            },
+        });
+    });
+
     window.onhashchange = function () {
         $('.page').hide();
 
