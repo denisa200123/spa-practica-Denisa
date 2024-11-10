@@ -42,3 +42,29 @@ window.orderForm = function() {
 
     return html;
 }
+
+window.renderPagination = function(response) {
+    let paginationHtml = '';
+    
+    if (response.prev_page_url) {
+        paginationHtml += `<button onclick="loadProducts('${response.prev_page_url}')">Previous</button>`;
+    }
+    if (response.next_page_url) {
+        paginationHtml += `<button onclick="loadProducts('${response.next_page_url}')">Next</button>`;
+    }
+
+    return paginationHtml;
+}
+
+window.loadProducts = function(url) {
+    $.ajax({
+        url: url,
+        dataType: 'json',
+        success: function (response) {
+            $('.products .list').html(renderProducts(response.data));
+            $('.products .searchProductForm').html(searchProductForm());
+            $('.products .orderForm').html(orderForm());
+            $('.products .pagination').html(renderPagination(response));
+        }
+    });
+}

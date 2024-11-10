@@ -21,9 +21,9 @@ class ProductController extends Controller
             }
 
             if (Session::get('orderBy') === 'none') {
-                $products = Product::all();
+                $products = Product::paginate(2);
             } else {
-                $products = Product::orderBy(Session::get('orderBy'), 'asc')->get();
+                $products = Product::orderBy(Session::get('orderBy'), 'asc')->paginate(2);
             }
 
             if ($products && count($products)>0 && $request->expectsJson()) {
@@ -54,7 +54,7 @@ class ProductController extends Controller
     {
         Session::put('orderBy', 'none');
 
-        $products = Product::all();
+        $products = Product::paginate(2);
         if ($request->expectsJson()) {
             return response()->json($products);
         }

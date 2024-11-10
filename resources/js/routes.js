@@ -163,7 +163,8 @@ $(document).ready(function () {
             dataType: 'json',
             data: orderData,
             success: function (response) {
-                $('.products .list').html(renderProducts(response));
+                $('.products .list').html(renderProducts(response.data));
+                $('.products .pagination').html(renderPagination(response));
             },
             error: function (response) {
                 $('.laravelError').remove();
@@ -266,13 +267,14 @@ $(document).ready(function () {
             //products page
             case '#products':
                 $.ajax({
-                    url: '/products',
+                    url: '/products?page=1',
                     dataType: 'json',
                     success: function (response) {
                         $('.products').show();
-                        $('.products .list').html(renderProducts(response));
+                        $('.products .list').html(renderProducts(response.data));
                         $('.products .searchProductForm').html(searchProductForm());
                         $('.products .orderForm').html(orderForm());
+                        $('.products .pagination').html(renderPagination(response));
                         document.title = 'Products page';
                     },
                 });

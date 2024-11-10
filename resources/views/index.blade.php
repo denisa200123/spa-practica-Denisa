@@ -29,6 +29,7 @@
         <form class="orderForm" style="width: fit-content; height: fit-content;"></form>
         <br>
         <table class="list" border="1" cellpadding="10"></table>
+        <div class="pagination"></div>
     </div>
 
     <div class="page edit" style="margin: 10px;">
