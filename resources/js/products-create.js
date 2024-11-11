@@ -10,6 +10,6 @@ window.renderCreateForm = function () {
         <input type="file" name="image" id="image" required>
 
         <input type="submit" value="Create" class="btn btn-success">
-    `;
+    `;//translate
     return htmlCreateForm;
 }

@@ -17,7 +17,7 @@ class OrderController extends Controller
             }
         } catch (\Exception $e) {
             if ($request->expectsJson()) {
-                return response()->json(['error' => 'No orders'], 204);
+                return response()->json(['error' => __('No orders to show')], 204);
             }
         }
         return view('index');
@@ -34,7 +34,7 @@ class OrderController extends Controller
             }
         } catch (\Exception $e) {
             if ($request->expectsJson()) {
-                return response()->json(['error' => 'Did not find order'], 404);
+                return response()->json(['error' => __('Did not find order')], 404);
             }
         }
         return view('index');

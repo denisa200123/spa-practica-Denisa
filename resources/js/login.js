@@ -9,6 +9,6 @@ window.renderLoginForm = function() {
         <br>
 
         <button type="submit" class="btn btn-primary">Login</button>
-    `;
+    `;//translate
     return htmlLoginForm;
 }

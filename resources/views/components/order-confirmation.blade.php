@@ -4,7 +4,10 @@
 
 <table border="1" cellpadding="10">
     <tr>
-        <x-display-product-details />
+        <th>{{ __('Name') }}</th>
+        <th>{{ __('Price') }}</th>
+        <th>{{ __('Description') }}</th>
+        <th>{{ __('Image') }}</th>
     </tr>
 
     @foreach ($products as $product)

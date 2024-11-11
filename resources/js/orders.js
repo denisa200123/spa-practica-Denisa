@@ -21,10 +21,10 @@ window.renderOrders = function(orders) {
                 '<td>' + order.comments + '</td>',
                 '<td>' + order.total_price + '</td>',
                 '<td>' + date + '</td>',
-                '<td><a href=#order/' + order.id + '>See products</a></td>',
+                `<td><a href="#order/${order.id}">See products</a></td>`,
             '</tr>'
         ].join('');
-    });
+    });//translate
 
     return html;
 }

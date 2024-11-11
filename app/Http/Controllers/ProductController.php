@@ -31,7 +31,7 @@ class ProductController extends Controller
             }
         } catch (\Throwable $th) {
             if ($request->expectsJson()) {
-                return response()->json(['error' => 'Invalid select'], 400);
+                return response()->json(['error' => __('Invalid select')], 400);
             }
         }
         return view('index');
@@ -44,7 +44,7 @@ class ProductController extends Controller
         if ($products && count($products) > 0 && $name && $request->expectsJson()) {
             return response()->json($products);
         } else if ($request->expectsJson()) {
-            return response()->json(['error' => 'Product not found'], 404);
+            return response()->json(['error' => __('Did not find product')], 404);
         }
         return view('index');
     }
@@ -91,7 +91,7 @@ class ProductController extends Controller
         Product::create($info);
 
         if ($request->expectsJson()) {
-            return response()->json(['success' => 'Product created']);
+            return response()->json(['success' => __('Product created')]);
         }
 
         return view('index');
@@ -108,7 +108,7 @@ class ProductController extends Controller
             }
         } catch (\Exception $e) {
             if ($request->expectsJson()) {
-                return response()->json(['error' => 'Did not find product'], 404);
+                return response()->json(['error' => __('Did not find product')], 404);
             }
         }
         return view('index');
@@ -141,7 +141,7 @@ class ProductController extends Controller
         $product->update($request->all());
 
         if ($request->expectsJson()) {
-            return response()->json(['success' => 'Product updated']);
+            return response()->json(['success' => __('Product updated')]);
         }
 
         return view('index');
@@ -154,14 +154,13 @@ class ProductController extends Controller
             $product = Product::findOrFail($id);
             $product->delete();
             if ($request->expectsJson()) {
-                return response()->json(['success' => 'Product destroyed']);
+                return response()->json(['success' => __('Product removed')]);
             }
         } catch (\Exception $e) {
             if ($request->expectsJson()) {
-                return response()->json(['error' => 'Product couldnt be removed'], 400);
+                return response()->json(['error' => __('Product couldnt be removed')], 400);
             }
         }
         return view('index');
     }
-
 }

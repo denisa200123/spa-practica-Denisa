@@ -17,7 +17,7 @@ $(document).ready(function () {
             dataType: 'json',
             data: checkoutData,
             success: function (response) {
-                window.location.hash = "#";
+                window.location.hash = '#';
                 success(response.success);
             },
             error: function (response) {
@@ -45,7 +45,7 @@ $(document).ready(function () {
             data: loginData,
             success: function (response) {
                 updateHeader();
-                window.location.hash = "#";
+                window.location.hash = '#';
                 success(response.success);
             },
             error: function (response) {
@@ -80,9 +80,10 @@ $(document).ready(function () {
             editForm.append('image', $('#image')[0].files[0]);
         }
 
+        let productToEdit = window.location.hash.split('#edit/')[1];
         $.ajax({
             type: 'POST',
-            url: '/products/' + window.location.hash.split('#edit/')[1],
+            url: `/products/${productToEdit}`,
             dataType: 'json',
             data: editForm,
             enctype: 'multipart/form-data',
@@ -90,7 +91,7 @@ $(document).ready(function () {
             processData: false,
             cache: false,
             success: function (response) {
-                window.location.hash = "#products";
+                window.location.hash = '#products';
                 success(response.success);
             },
             error: function (response) {
@@ -127,7 +128,7 @@ $(document).ready(function () {
             processData: false,
             cache: false,
             success: function (response) {
-                window.location.hash = "#products";
+                window.location.hash = '#products';
                 success(response.success);
             },
             error: function (response) {
@@ -148,7 +149,7 @@ $(document).ready(function () {
         e.preventDefault();
         let searchedProduct = $('#searchedProduct').val();
         if (searchedProduct) {
-            window.location.hash = "#products-found/" + searchedProduct;
+            window.location.hash = `#products-found/${searchedProduct}`;
         }
     });
 
@@ -196,6 +197,7 @@ $(document).ready(function () {
             data: languageData,
             success: function (response) {
                 location.reload();
+                success(response.success);
             },
         });
     });
@@ -211,7 +213,7 @@ $(document).ready(function () {
                     url: '/cart',
                     dataType: 'json',
                     success: function (response) {
-                        document.title = 'Your cart';
+                        document.title = 'Your cart';//translate
                         $('.cart .list').html(renderCart(response));
                     }
                 });
@@ -223,14 +225,14 @@ $(document).ready(function () {
                 let addedProduct = window.location.hash.split('#add/')[1];
                 $.ajax({
                     type: 'post',
-                    url: '/cart/' + addedProduct + '/add',
+                    url: `/cart/${addedProduct}/add`,
                     dataType: 'json',
                     success: function (response) {
-                        window.location.hash = "#";
+                        window.location.hash = '#';
                         success(response.success);
                     },
                     error: function (response) {
-                        window.location.hash = "#";
+                        window.location.hash = '#';
                         showError(response.responseJSON.error);
                     }
                 });
@@ -242,14 +244,14 @@ $(document).ready(function () {
                 let removedProduct = window.location.hash.split('#remove/')[1];
                 $.ajax({
                     type: 'post',
-                    url: '/cart/' + removedProduct + '/clear',
+                    url: `/cart/${removedProduct}/clear`,
                     dataType: 'json',
                     success: function (response) {
-                        window.location.hash = "#cart";
+                        window.location.hash = '#cart';
                         success(response.success);
                     },
                     error: function (response) {
-                        window.location.hash = "#cart";
+                        window.location.hash = '#cart';
                         showError(response.responseJSON.error);
                     }
                 });
@@ -263,7 +265,7 @@ $(document).ready(function () {
                     success: function () {
                         $('.login').show();
                         $('.login .loginForm').html(renderLoginForm());
-                        document.title = 'Login';
+                        document.title = 'Login';//translate
                     }
                 });
                 break;
@@ -275,7 +277,7 @@ $(document).ready(function () {
                     dataType: 'json',
                     success: function (response) {
                         updateHeader();
-                        window.location.hash = "#";
+                        window.location.hash = '#';
                         success(response.success);
                     }
                 });
@@ -292,7 +294,7 @@ $(document).ready(function () {
                         $('.products .searchProductForm').html(searchProductForm());
                         $('.products .orderForm').html(orderForm());
                         $('.products .pagination').html(renderPagination(response));
-                        document.title = 'Products page';
+                        document.title = 'Products page';//translate
                     },
                 });
                 break;
@@ -302,15 +304,15 @@ $(document).ready(function () {
                 let productToDelete = window.location.hash.split('#delete/')[1];
                 $.ajax({
                     method: 'DELETE',
-                    url: '/products/' + productToDelete,
+                    url: `/products/${productToDelete}`,
                     dataType: 'json',
                     success: function (response) {
                         $('.products').show();
-                        window.location.hash = "#products";
+                        window.location.hash = '#products';
                         success(response.success);
                     },
                     error: function (response) {
-                        window.location.hash = "#products";
+                        window.location.hash = '#products';
                         showError(response.responseJSON.error);
                     }
                 });
@@ -320,15 +322,15 @@ $(document).ready(function () {
             case (window.location.hash.match(/#edit\/\d+/) || {}).input:
                 let productToEdit = window.location.hash.split('#edit/')[1];
                 $.ajax({
-                    url: '/products/' + productToEdit + '/edit',
+                    url: `/products/${productToEdit}/edit`,
                     dataType: 'json',
                     success: function (response) {
                         $('.edit').show();
                         $('.edit .editProductForm').html(renderEditForm(response));
-                        document.title = 'Edit product page';
+                        document.title = 'Edit product page';//translate
                     },
                     error: function (response) {
-                        window.location.hash = "#products";
+                        window.location.hash = '#products';
                         showError(response.responseJSON.error);
                     }
                 });
@@ -342,7 +344,7 @@ $(document).ready(function () {
                     success: function () {
                         $('.create').show();
                         $('.create .createProductForm').html(renderCreateForm());
-                        document.title = 'Create product page';
+                        document.title = 'Create product page';//translate
                     },
                 });
                 break;
@@ -355,7 +357,7 @@ $(document).ready(function () {
                     success: function (response) {
                         $('.orders').show();
                         $('.orders .list').html(renderOrders(response));
-                        document.title = 'Orders page';
+                        document.title = 'Orders page';//translate
                     },
                     error: function (response) {
                         showError(response.responseJSON.error);
@@ -365,16 +367,17 @@ $(document).ready(function () {
 
             //order page
             case (window.location.hash.match(/#order\/\d+/) || {}).input:
+                let order = window.location.hash.split('#order/')[1];
                 $.ajax({
-                    url: '/orders/' + window.location.hash.split('#order/')[1],
+                    url: `/orders/${order}`,
                     dataType: 'json',
                     success: function (response) {
                         $('.order').show();
                         $('.order .list').html(renderProduct(response));
-                        document.title = 'Order page';
+                        document.title = 'Order page';//translate
                     },
                     error: function (response) {
-                        window.location.hash = "#orders";
+                        window.location.hash = '#orders';
                         showError(response.responseJSON.error);
                     }
                 });
@@ -384,15 +387,15 @@ $(document).ready(function () {
             case (window.location.hash.match(/#products-found\/[^\/]+/) || {}).input:
                 let productToSearch = window.location.hash.split('#products-found/')[1];
                 $.ajax({
-                    url: '/products/search/' + productToSearch,
+                    url: `/products/search/${productToSearch}`,
                     dataType: 'json',
                     success: function (response) {
                         $('.products-found').show();
                         $('.products-found .list').html(renderProduct(response));
-                        document.title = 'Products found';
+                        document.title = 'Products found';//translate
                     },
                     error: function (response) {
-                        window.location.hash = "#products";
+                        window.location.hash = '#products';
                         showError(response.responseJSON.error);
                     }
                 });
@@ -406,7 +409,7 @@ $(document).ready(function () {
                     dataType: 'json',
                     success: function (response) {
                         $('.index .list').html(renderIndex(response));
-                        document.title = 'Index';
+                        document.title = 'Index';//translate
                     }
                 });
                 break;

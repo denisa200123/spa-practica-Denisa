@@ -1,9 +1,9 @@
 window.displayProductDetails = function() {
     let html = [
-        '<th>Title</th>',
-        '<th>Description</th>',
-        '<th>Price</th>',
-        '<th>Image</th>',
+        '<th>Title</th>',//translate
+        '<th>Description</th>',//translate
+        '<th>Price</th>',//translate
+        '<th>Image</th>',//translate
     ]
     return html;
 }
@@ -13,7 +13,7 @@ window.displayProduct = function(product) {
         '<td>' + product.title + '</td>',
         '<td>' + product.description + '</td>',
         '<td>' + product.price + '</td>',
-        '<td><img src=' + 'images/' + product.image_path + '></td>',
+        `<td><img src="images/${product.image_path}"></td>`,
     ]
     return html;
 }

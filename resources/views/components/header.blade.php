@@ -5,13 +5,13 @@
             <a href="#" class="btn btn-dark">{{ __('Home') }}</a>
             <a href="#cart" class="btn btn-dark">{{ __('Your cart') }}</a>
         </div>
-        
+
         @if (session("is_admin"))
             <div style="width: fit-content; height: fit-content;">
                 <div style="width: fit-content; height: fit-content;">
-                    <a href="#products" class="btn btn-dark">Products</a>
-                    <a href="#create" class="btn btn-dark" style="margin-left: 10px;">Create product</a>
-                    <a href="#orders" class="btn btn-dark" style="margin-left: 10px;">See orders</a>
+                    <a href="#products" class="btn btn-dark">{{ __('Products') }}</a>
+                    <a href="#create" class="btn btn-dark" style="margin-left: 10px;">{{ __('Create product') }}</a>
+                    <a href="#orders" class="btn btn-dark" style="margin-left: 10px;">{{ __('See orders') }}</a>
                 </div>
             </div>
 
@@ -30,7 +30,7 @@
             <option value="en" @if (session('locale', 'en') == 'en') selected @endif>{{ __('English') }}</option>
             <option value="ro" @if (session('locale') == 'ro') selected @endif>{{ __('Romanian') }}</option>
         </select>
-        <button type="submit" class="btn btn-dark">Change language</button>
+        <button type="submit" class="btn btn-dark">{{ __('Change language') }}</button>
     </form>
 
     <br><hr>

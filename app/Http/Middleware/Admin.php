@@ -16,12 +16,12 @@ class Admin
     {
         //admin can't access login
         if (session('is_admin') && $request->route()->named('login.form')) {
-            abort(403, 'unauthorized');
+            abort(403, __('Unauthorized'));
         }
 
         //only admin can access admin restricted pages
         if (!session('is_admin') && !$request->route()->named('login.form')) {
-            abort(403, 'unauthorized');
+            abort(403, __('Unauthorized'));
         }
 
         return $next($request);

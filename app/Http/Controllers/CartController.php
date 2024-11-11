@@ -57,11 +57,11 @@ class CartController extends Controller
                 $request->session()->put('productsInCart', $productsInCart->all());
             }
             if ($request->expectsJson()) {
-                return response()->json(['success' => 'Product added']);
+                return response()->json(['success' => __('Product added to cart')]);
             }
         } catch (\Exception $e) {
             if ($request->expectsJson()) {
-                return response()->json(['error' => 'The selected product does not exist'], 404);
+                return response()->json(['error' => __('The selected product does not exist')], 404);
             }
         }
         return view('index');
@@ -81,11 +81,11 @@ class CartController extends Controller
                 $request->session()->put('productsInCart', $productsInCart);
             }
             if ($request->expectsJson()) {
-                return response()->json(['success' => 'Product removed']);
+                return response()->json(['success' => __('Product removed from cart')]);
             }
         } catch (\Exception $e) {
             if ($request->expectsJson()) {
-                return response()->json(['error' => 'The selected product does not exist'], 404);
+                return response()->json(['error' => __('The selected product does not exist')], 404);
             }
         }
         return view('index');
@@ -119,7 +119,7 @@ class CartController extends Controller
         $request->session()->forget('productsInCart');
 
         if ($request->expectsJson()) {
-            return response()->json(['success' => 'Order placed']);
+            return response()->json(['success' => __('Order placed successfully')]);
         }
         return view('index');
     }

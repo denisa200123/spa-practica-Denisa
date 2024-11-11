@@ -2,7 +2,7 @@ window.renderCart = function(products) {
     let html = [
         '<tr>',
             displayProductDetails(),
-            '<th>Remove</th>',
+            '<th>Remove</th>',//translate
         '</tr>'
     ].join('');
 
@@ -10,7 +10,7 @@ window.renderCart = function(products) {
         html += [
             '<tr>',
                 displayProduct(product),
-                '<td><a href=#remove/' + product.id + '>Remove</a></td>',
+                `<td><a href="#remove/${product.id}">Remove</a></td>`,
             '</tr>'
         ].join('');
     });
@@ -28,7 +28,7 @@ window.renderCart = function(products) {
         <br>
 
         <button type="submit" class="btn btn-primary">Place Order</button>
-    `;
+    `;//translate
 
     if(products.length > 0) {
         $('.cart .checkoutForm').html(htmlCheckoutForm);

@@ -18,7 +18,7 @@ class LanguageController extends Controller
         }
 
         if ($request->expectsJson()) {
-            return response()->json(['success' => 'Changed language']);
+            return response()->json(['success' => __('Language changed succsessfully')]);
         }
         return redirect()->back();
     }

@@ -25,12 +25,12 @@ class LoginController extends Controller
             $request->session()->put('is_admin', true);
 
             if ($request->expectsJson()) {
-                return response()->json(['success' => 'Successfull login']);
+                return response()->json(['success' => __('Successfull login!')]);
             }
         }
 
         if ($request->expectsJson()) {
-            return response()->json(['error' => 'Invalid credentials!'], 401);
+            return response()->json(['error' => __('Invalid credentials!')], 401);
         }
 
         return view('index');
@@ -41,7 +41,7 @@ class LoginController extends Controller
         $request->session()->forget('is_admin');
 
         if ($request->expectsJson()) {
-            return response()->json(['success' => 'Successfull logout']);
+            return response()->json(['success' => __('Successfull logout!')]);
         }
 
         return view('index');
