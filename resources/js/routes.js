@@ -144,17 +144,38 @@ $(document).ready(function () {
         });
     });
 
-    //search product form
-    $('.searchProductForm').on('submit', function (e) {
-        e.preventDefault();
-        let searchedProduct = $('#searchedProduct').val();
-        if (searchedProduct) {
-            window.location.hash = `#products-found/${searchedProduct}`;
-        }
-    });
-
     //order products form
     $('.orderForm').on('submit', function (e) {
+        e.preventDefault();
+
+        let orderData = $(this).serialize();
+
+        $.ajax({
+            url: '/products/order',
+            dataType: 'json',
+            data: orderData,
+            success: function (response) {
+                $('.products .list').html(renderProducts(response.data));
+                $('.products .pagination').html(renderPagination(response));
+            },
+            error: function (response) {
+                $('.laravelError').remove();
+
+                if (response.responseJSON.errors) {
+                    $.each(response.responseJSON.errors, function (field, errors) {
+                        let errorHtml = `<div class="laravelError alert-danger">${errors[0]}</div>`;
+                        $(`#${field}`).after(errorHtml);
+                    });
+                }
+
+                if (response.responseJSON.error) {
+                    showError(response.responseJSON.error);
+                }
+            }
+        });
+    });
+
+    $('.searchProductForm').on('submit', function (e) {
         e.preventDefault();
 
         let orderData = $(this).serialize();
@@ -378,24 +399,6 @@ $(document).ready(function () {
                     },
                     error: function (response) {
                         window.location.hash = '#orders';
-                        showError(response.responseJSON.error);
-                    }
-                });
-                break;
-
-            //products found
-            case (window.location.hash.match(/#products-found\/[^\/]+/) || {}).input:
-                let productToSearch = window.location.hash.split('#products-found/')[1];
-                $.ajax({
-                    url: `/products/search/${productToSearch}`,
-                    dataType: 'json',
-                    success: function (response) {
-                        $('.products-found').show();
-                        $('.products-found .list').html(renderProduct(response));
-                        document.title = 'Products found';//translate
-                    },
-                    error: function (response) {
-                        window.location.hash = '#products';
                         showError(response.responseJSON.error);
                     }
                 });

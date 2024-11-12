@@ -13,20 +13,37 @@ class ProductController extends Controller
     public function order(Request $request)
     {
         try {
-            $request->validate(['orderBy' => 'string|max:20|min:1|in:title,price,description,none']);
-            $orderBy = $request->orderBy;
-
+            $request->validate([
+                'orderBy' => 'string|max:20|min:1|in:title,price,description,none',
+                'searchedProduct' => 'string|max:255|min:1'
+            ]);
+    
+            $orderBy = $request->input('orderBy');
+            $name = $request->input('searchedProduct');
+            $query = Product::query();
+    
+            if ($name) {
+                Session::put('name', $name);
+            }
+    
             if ($orderBy) {
                 Session::put('orderBy', $orderBy);
             }
-
-            if (Session::get('orderBy') === 'none') {
-                $products = Product::paginate(2);
-            } else {
-                $products = Product::orderBy(Session::get('orderBy'), 'asc')->paginate(2);
+    
+            if (!empty(Session::get('name'))) {
+                $query->where('title', 'like', '%' . Session::get('name') . '%');
             }
+    
+            if (Session::get('orderBy') !== 'none' && !empty(Session::get('orderBy'))) {
+                $query->orderBy(Session::get('orderBy'), 'asc');
+            }
+    
+            $products = $query->paginate(2)->appends([
+                'searchedProduct' => $name,
+                'orderBy' => $orderBy
+            ]);
 
-            if ($products && count($products)>0 && $request->expectsJson()) {
+            if ($request->expectsJson()) {
                 return response()->json($products);
             }
         } catch (\Throwable $th) {
@@ -37,22 +54,11 @@ class ProductController extends Controller
         return view('index');
     }
 
-    //search product
-    public function search(Request $request, $name)
-    {
-        $products = Product::where('title', 'like', "%$name%")->get();
-        if ($products && count($products) > 0 && $name && $request->expectsJson()) {
-            return response()->json($products);
-        } else if ($request->expectsJson()) {
-            return response()->json(['error' => __('Did not find product')], 404);
-        }
-        return view('index');
-    }
-
     //display all products
     public function index(Request $request)
     {
-        Session::put('orderBy', 'none');
+        $request->session()->forget('name');
+        $request->session()->forget('orderBy');
 
         $products = Product::paginate(2);
         if ($request->expectsJson()) {
