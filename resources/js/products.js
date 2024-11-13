@@ -3,7 +3,7 @@ window.renderProducts = function(products) {
         '<tr>',
             displayProductDetails(),
             '<th class="translatable" data-key="Edit"></th>',
-            '<th class="translatable" data-key="Remove"></th>',
+            '<th class="translatable" data-key="Delete"></th>',
         '</tr>'
     ].join('');
 
@@ -12,7 +12,7 @@ window.renderProducts = function(products) {
             '<tr>',
                 displayProduct(product),
                 `<td><a href="#edit/${product.id}" class="translatable" data-key="Edit"></a></td>`,
-                `<td><a href="#delete/${product.id}" class="translatable" data-key="Remove"></a></td>`,
+                `<td><a href="#delete/${product.id}" class="translatable" data-key="Delete"></a></td>`,
             '</tr>'
         ].join('');
     });

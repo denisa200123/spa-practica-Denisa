@@ -10,7 +10,7 @@ window.renderCart = function(products) {
         html += [
             '<tr>',
                 displayProduct(product),
-                `<td><a href="#remove/${product.id}" class="translatable" data-key="Remove"></a></td>`,
+                `<td><a href="#remove/${product.id}" class="translatable" data-key="Remove from cart"></a></td>`,
             '</tr>'
         ].join('');
     });

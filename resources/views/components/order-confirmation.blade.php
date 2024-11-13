@@ -20,6 +20,6 @@
     @endforeach
 </table>
 
-<h2>{{ __('Customer name:') }} {{ $customerDetails['name'] }}</h2>
-<h2>{{ __('Details:') }} {{ $customerDetails['details'] }}</h2>
-<h2>{{ __('Comments:') }} {{ $customerDetails['comments'] }}</h2>
+<h2>{{ __('Customer name') }} : {{ $customerDetails['name'] }}</h2>
+<h2>{{ __('Details') }} : {{ $customerDetails['details'] }}</h2>
+<h2>{{ __('Comments') }} : {{ $customerDetails['comments'] }}</h2>

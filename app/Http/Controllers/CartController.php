@@ -103,7 +103,7 @@ class CartController extends Controller
         $products = Product::whereIn('id', $productsInCart)->get();
         $totalPrice = $products->sum('price');
 
-        Mail::to(env('USER_EMAIL'))->queue(new OrderConfirmation($products, $request->all()));
+        Mail::to(env('USER_EMAIL'))->send(new OrderConfirmation($products, $request->all()));
 
         $order = Order::create([
             'customer_name' => $request->name,
