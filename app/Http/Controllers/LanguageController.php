@@ -15,10 +15,9 @@ class LanguageController extends Controller
         if (in_array($locale, ['ro', 'en'])) {
             Session::put('locale', $locale);
             App::setLocale($locale);
-        }
-
-        if ($request->expectsJson()) {
-            return response()->json(['success' => __('Language changed succsessfully')]);
+            if ($request->expectsJson()) {
+                return response()->json();
+            }
         }
         return redirect()->back();
     }

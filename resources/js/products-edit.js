@@ -6,6 +6,6 @@ window.renderEditForm = function (product) {
         <input type="file" name="image" id="image">
 
         <input type="submit" value="Edit" class="btn btn-warning">
-    `;//translate
+    `;
     return htmlEditForm;
 }

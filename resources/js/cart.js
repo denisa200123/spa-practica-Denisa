@@ -2,7 +2,7 @@ window.renderCart = function(products) {
     let html = [
         '<tr>',
             displayProductDetails(),
-            '<th>Remove</th>',//translate
+            '<th class="translatable" data-key="Remove"></th>',
         '</tr>'
     ].join('');
 
@@ -10,25 +10,25 @@ window.renderCart = function(products) {
         html += [
             '<tr>',
                 displayProduct(product),
-                `<td><a href="#remove/${product.id}">Remove</a></td>`,
+                `<td><a href="#remove/${product.id}" class="translatable" data-key="Remove"></a></td>`,
             '</tr>'
         ].join('');
     });
 
     let htmlCheckoutForm = `
-        <label for="name">Name</label>
+        <label for="name" class="translatable" data-key="Name"></label>
         <input type="text" id="name" name="name" required>
 
-        <label for="details">Order details</label>
+        <label for="details" class="translatable" data-key="Order details"></label>
         <input type="text" id="details" name="details" required">
 
-        <label for="comments">Comments</label>
+        <label for="comments" class="translatable" data-key="Comments"></label>
         <textarea id="comments" name="comments"></textarea>
 
         <br>
 
-        <button type="submit" class="btn btn-primary">Place Order</button>
-    `;//translate
+        <button type="submit" class="btn btn-primary">Checkout</button>
+    `;
 
     if(products.length > 0) {
         $('.cart .checkoutForm').html(htmlCheckoutForm);

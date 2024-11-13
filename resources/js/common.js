@@ -1,9 +1,9 @@
 window.displayProductDetails = function() {
     let html = [
-        '<th>Title</th>',//translate
-        '<th>Description</th>',//translate
-        '<th>Price</th>',//translate
-        '<th>Image</th>',//translate
+        '<th class="translatable" data-key="Name"></th>',
+        '<th class="translatable" data-key="Description">Description</th>',
+        '<th class="translatable" data-key="Price">Price</th>',
+        '<th class="translatable" data-key="Image">Image</th>',
     ]
     return html;
 }
@@ -55,4 +55,23 @@ window.renderProduct = function(orderProducts) {
         });
 
     return html;
+}
+
+let translations = {};
+
+window.loadTranslations = function(callback) {
+    $.ajax({
+        url: '/translations',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            translations = response;
+            if (callback) callback();
+        },
+    });
+}
+
+window.__ = function(key) {
+    console.log('key: ', translations[key] || key);
+    return translations[key] || key;
 }

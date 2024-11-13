@@ -1,13 +1,13 @@
 window.renderOrders = function(orders) {
     let html = [
         '<tr>',
-            '<th>Order id</th>',
-            '<th>Customer name</th>',
-            '<th>Contact details</th>',
-            '<th>Comments</th>',
-            '<th>Total price</th>',
-            '<th>Date</th>',
-            '<th>Products</th>',
+            '<th class="translatable" data-key="Order id"></th>',
+            '<th class="translatable" data-key="Customer name""></th>',
+            '<th class="translatable" data-key="Contact details"></th>',
+            '<th class="translatable" data-key="Comments"></th>',
+            '<th class="translatable" data-key="Total price"></th>',
+            '<th class="translatable" data-key="Creation date"></th>',
+            '<th class="translatable" data-key="Products"></th>',
         '</tr>'
     ].join('');
 
@@ -21,10 +21,10 @@ window.renderOrders = function(orders) {
                 '<td>' + order.comments + '</td>',
                 '<td>' + order.total_price + '</td>',
                 '<td>' + date + '</td>',
-                `<td><a href="#order/${order.id}">See products</a></td>`,
+                `<td><a href="#order/${order.id}" class="translatable" data-key="See products"></a></td>`,
             '</tr>'
         ].join('');
-    });//translate
+    });
 
     return html;
 }

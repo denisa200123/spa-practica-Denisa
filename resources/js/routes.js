@@ -5,6 +5,13 @@ $(document).ready(function () {
         }
     });
 
+    loadTranslations(function() {
+        $('.translatable').each(function() {
+            let key = $(this).data('key');
+            $(this).text(__(key));
+        });
+    });
+
     //checkout form
     $('.checkoutForm').on('submit', function (e) {
         e.preventDefault();
@@ -158,6 +165,10 @@ $(document).ready(function () {
                 $('.products .list').html(renderProducts(response.data));
                 $('.products .pagination').html(renderPagination(response));
                 $('.products .orderForm').html(orderForm(orderBy.value));
+                $('.products .translatable').each(function() {
+                    let key = $(this).data('key');
+                    $(this).text(__(key));
+                });
             },
             error: function (response) {
                 $('.laravelError').remove();
@@ -188,6 +199,10 @@ $(document).ready(function () {
             success: function (response) {
                 $('.products .list').html(renderProducts(response.data));
                 $('.products .pagination').html(renderPagination(response));
+                $('.products .translatable').each(function() {
+                    let key = $(this).data('key');
+                    $(this).text(__(key));
+                });
             },
             error: function (response) {
                 $('.laravelError').remove();
@@ -217,8 +232,10 @@ $(document).ready(function () {
             type: 'post',
             dataType: 'json',
             data: languageData,
-            success: function (response) {
-                location.reload();
+            success: function () {
+                loadTranslations(function() {
+                    location.reload();
+                });
             },
         });
     });
@@ -234,8 +251,12 @@ $(document).ready(function () {
                     url: '/cart',
                     dataType: 'json',
                     success: function (response) {
-                        document.title = 'Your cart';//translate
+                        document.title = __('Your cart');
                         $('.cart .list').html(renderCart(response));
+                        $('.cart .translatable').each(function() {
+                            let key = $(this).data('key');
+                            $(this).text(__(key));
+                        });
                     }
                 });
                 break;
@@ -286,7 +307,11 @@ $(document).ready(function () {
                     success: function () {
                         $('.login').show();
                         $('.login .loginForm').html(renderLoginForm());
-                        document.title = 'Login';//translate
+                        $('.login .translatable').each(function() {
+                            let key = $(this).data('key');
+                            $(this).text(__(key));
+                        });
+                        document.title = __('Login');
                     }
                 });
                 break;
@@ -315,7 +340,11 @@ $(document).ready(function () {
                         $('.products .searchProductForm').html(searchProductForm());
                         $('.products .orderForm').html(orderForm());
                         $('.products .pagination').html(renderPagination(response));
-                        document.title = 'Products page';//translate
+                        $('.products .translatable').each(function() {
+                            let key = $(this).data('key');
+                            $(this).text(__(key));
+                        });
+                        document.title = __('Products');
                     },
                 });
                 break;
@@ -348,7 +377,7 @@ $(document).ready(function () {
                     success: function (response) {
                         $('.edit').show();
                         $('.edit .editProductForm').html(renderEditForm(response));
-                        document.title = 'Edit product page';//translate
+                        document.title = __('Edit product');
                     },
                     error: function (response) {
                         window.location.hash = '#products';
@@ -365,7 +394,11 @@ $(document).ready(function () {
                     success: function () {
                         $('.create').show();
                         $('.create .createProductForm').html(renderCreateForm());
-                        document.title = 'Create product page';//translate
+                        $('.create .translatable').each(function() {
+                            let key = $(this).data('key');
+                            $(this).text(__(key));
+                        });
+                        document.title = __('Create product');
                     },
                 });
                 break;
@@ -378,7 +411,11 @@ $(document).ready(function () {
                     success: function (response) {
                         $('.orders').show();
                         $('.orders .list').html(renderOrders(response));
-                        document.title = 'Orders page';//translate
+                        $('.orders .translatable').each(function() {
+                            let key = $(this).data('key');
+                            $(this).text(__(key));
+                        });
+                        document.title = __('Orders');
                     },
                     error: function (response) {
                         showError(response.responseJSON.error);
@@ -394,8 +431,13 @@ $(document).ready(function () {
                     dataType: 'json',
                     success: function (response) {
                         $('.order').show();
+                        $('.order h2').html(`Id: ${order}`);
                         $('.order .list').html(renderProduct(response));
-                        document.title = 'Order page';//translate
+                        $('.order .translatable').each(function() {
+                            let key = $(this).data('key');
+                            $(this).text(__(key));
+                        });
+                        document.title = __('Order');
                     },
                     error: function (response) {
                         window.location.hash = '#orders';
@@ -412,7 +454,11 @@ $(document).ready(function () {
                     dataType: 'json',
                     success: function (response) {
                         $('.index .list').html(renderIndex(response));
-                        document.title = 'Index';//translate
+                        $('.index .translatable').each(function() {
+                            let key = $(this).data('key');
+                            $(this).text(__(key));
+                        });
+                        document.title = __('Home');
                     }
                 });
                 break;

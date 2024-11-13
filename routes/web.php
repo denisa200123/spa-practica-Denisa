@@ -40,4 +40,14 @@ Route::middleware(['setLocale'])->group(function () {
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show')->middleware('admin');
 
     Route::post('/set-language', [LanguageController::class, 'setLanguage'])->name('set.language');
+    Route::get('/translations', function () {
+        $locale = session('locale');
+        if ($locale === 'ro') {
+            $translations = File::json(base_path('lang/ro.json'));
+        } else {
+            $translations = File::json(base_path('lang/en.json'));
+        }
+
+        return response()->json($translations);
+    });
 });

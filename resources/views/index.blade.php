@@ -48,7 +48,7 @@
     </div>
 
     <div class="page order" style="margin: 10px;">
-        <h2>{{ __('Order') }}</h2>
+        <h2></h2>
         <table class="list" border="1" cellpadding="10"></table>
     </div>
 
