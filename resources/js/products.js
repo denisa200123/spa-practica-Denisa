@@ -29,15 +29,14 @@ window.searchProductForm = function() {
     return html;
 }
 
-window.orderForm = function() {
+window.orderForm = function(value) {
     let html = [
         '<select name="orderBy" id="orderBy">',
             '<option value="none">None</option>',//translate
-            '<option value="title">Title</option>',//translate
-            '<option value="price">Price</option>',//translate
-            '<option value="description">Description</option>',//translate
+            `<option value="title" ${value === 'title' ? "selected" : ""}>Title</option>`,//translate
+            `<option value="price" ${value === 'price' ? "selected" : ""}>Price</option>`,//translate
+            `<option value="description" ${value === 'description' ? "selected" : ""}>Description</option>`,//translate
         '</select>',
-        '<input type="submit" value="Order" class="btn btn-info">'//translate
     ].join('');
 
     return html;
@@ -63,7 +62,7 @@ window.loadProducts = function(url) {
         success: function (response) {
             $('.products .list').html(renderProducts(response.data));
             $('.products .searchProductForm').html(searchProductForm());
-            $('.products .orderForm').html(orderForm());
+            $('.products .orderForm').html(orderForm(orderBy.value));
             $('.products .pagination').html(renderPagination(response));
         }
     });

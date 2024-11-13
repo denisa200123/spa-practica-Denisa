@@ -145,9 +145,8 @@ $(document).ready(function () {
     });
 
     //order products form
-    $('.orderForm').on('submit', function (e) {
+    $('.orderForm').on('change', function (e) {
         e.preventDefault();
-
         let orderData = $(this).serialize();
 
         $.ajax({
@@ -155,8 +154,10 @@ $(document).ready(function () {
             dataType: 'json',
             data: orderData,
             success: function (response) {
+                var orderBy = document.getElementById("orderBy");
                 $('.products .list').html(renderProducts(response.data));
                 $('.products .pagination').html(renderPagination(response));
+                $('.products .orderForm').html(orderForm(orderBy.value));
             },
             error: function (response) {
                 $('.laravelError').remove();
@@ -206,7 +207,7 @@ $(document).ready(function () {
     });
 
     //change language form
-    $('#languageForm').on('submit', function (e) {
+    $('#languageForm').on('change', function (e) {
         e.preventDefault();
 
         let languageData = $(this).serialize();
@@ -218,7 +219,6 @@ $(document).ready(function () {
             data: languageData,
             success: function (response) {
                 location.reload();
-                success(response.success);
             },
         });
     });

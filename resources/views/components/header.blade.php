@@ -30,7 +30,6 @@
             <option value="en" @if (session('locale', 'en') == 'en') selected @endif>{{ __('English') }}</option>
             <option value="ro" @if (session('locale') == 'ro') selected @endif>{{ __('Romanian') }}</option>
         </select>
-        <button type="submit" class="btn btn-dark">{{ __('Change language') }}</button>
     </form>
 
     <br><hr>
