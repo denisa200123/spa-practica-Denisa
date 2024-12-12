@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Session;
 
 class LoginController extends Controller
 {
@@ -22,7 +23,7 @@ class LoginController extends Controller
         ]);
 
         if ($request->username === env('ADMIN_USERNAME') && $request->password === env('ADMIN_PASSWORD')) {
-            $request->session()->put('is_admin', true);
+            Session::put('is_admin', true);
 
             if ($request->expectsJson()) {
                 return response()->json(['success' => __('Successfull login!')]);
@@ -36,9 +37,9 @@ class LoginController extends Controller
         return view('index');
     }
 
-    public function destroy(Request $request)
+    public function logout(Request $request)
     {
-        $request->session()->forget('is_admin');
+        Session::forget('is_admin');
 
         if ($request->expectsJson()) {
             return response()->json(['success' => __('Successfull logout!')]);

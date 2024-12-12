@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Session;
 
 class Admin
 {
@@ -14,13 +15,8 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        //admin can't access login
-        if (session('is_admin') && $request->route()->named('login.form')) {
-            abort(403, __('Unauthorized'));
-        }
-
-        //only admin can access admin restricted pages
-        if (!session('is_admin') && !$request->route()->named('login.form')) {
+        //admin can't access login & only admin can access admin restricted pages
+        if (Session::get('is_admin') && $request->route()->named('login.form') || !Session::get('is_admin') && !$request->route()->named('login.form')) {
             abort(403, __('Unauthorized'));
         }
 

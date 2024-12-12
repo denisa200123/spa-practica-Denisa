@@ -10,13 +10,6 @@ class Product extends Model
 {
     use HasFactory;
 
-    static function notInCart(Request $request)
-    {
-        $productsInCart = $request->session()->get('productsInCart', []);
-
-        return static::whereNotIn('id', $productsInCart)->get();
-    }
-
     public function orders()
     {
         return $this->belongsToMany(Order::class);

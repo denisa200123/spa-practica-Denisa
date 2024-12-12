@@ -19,6 +19,7 @@ class LanguageController extends Controller
                 return response()->json();
             }
         }
+
         return redirect()->back();
     }
 }

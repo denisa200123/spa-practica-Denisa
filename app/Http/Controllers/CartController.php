@@ -7,13 +7,14 @@ use App\Models\Product;
 use App\Models\Order;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderConfirmation;
+use Session;
 
 class CartController extends Controller
 { 
     private function initializeCart(Request $request)
     {
-        if (!$request->session()->has('productsInCart')) {
-            $request->session()->put('productsInCart', []);
+        if (!Session::has('products_in_cart')) {
+            Session::put('products_in_cart', []);
         }
     }
 
@@ -22,7 +23,9 @@ class CartController extends Controller
     {
         $this->initializeCart($request);
 
-        $products = Product::notInCart($request);
+        $productsInCart = Session::get('products_in_cart', []);
+        $products = Product::whereNotIn('id', $productsInCart)->get();
+
         if ($request->expectsJson()) {
             return response()->json($products);
         }
@@ -34,7 +37,7 @@ class CartController extends Controller
     {
         $this->initializeCart($request);
 
-        $productsInCart = $request->session()->get('productsInCart', []);
+        $productsInCart = Session::get('products_in_cart', []);
         $products = Product::whereIn('id', $productsInCart)->get();
 
         if ($request->expectsJson()) {
@@ -47,15 +50,14 @@ class CartController extends Controller
     public function addCart(Request $request, $id)
     {
         try {
-            $product = Product::findOrFail($id);//check if id is a valid product
-
             $this->initializeCart($request);
-            $productsInCart = collect($request->session()->get('productsInCart', []));
+            $productsInCart = Session::get('products_in_cart', []);
 
-            if (!$productsInCart->contains($id)) {
-                $productsInCart->push($id);
-                $request->session()->put('productsInCart', $productsInCart->all());
+            if (!in_array($id, $productsInCart)) {
+                $productsInCart[] = $id;
+                Session::put('products_in_cart', $productsInCart);
             }
+
             if ($request->expectsJson()) {
                 return response()->json(['success' => __('Product added to cart')]);
             }
@@ -68,18 +70,17 @@ class CartController extends Controller
     }
 
     //remove from cart
-    public function clearCart(Request $request, $id)
+    public function removeCart(Request $request, $id)
     {
         try {
-            $product = Product::findOrFail($id);
-
             $this->initializeCart($request);
-            $productsInCart = $request->session()->get('productsInCart', []);
+            $productsInCart = Session::get('products_in_cart', []);
 
             if (($key = array_search($id, $productsInCart)) !== false) {
                 unset($productsInCart[$key]);
-                $request->session()->put('productsInCart', $productsInCart);
+                Session::put('products_in_cart', $productsInCart);
             }
+
             if ($request->expectsJson()) {
                 return response()->json(['success' => __('Product removed from cart')]);
             }
@@ -99,11 +100,15 @@ class CartController extends Controller
             'details' => 'required|string',
         ]);
 
-        $productsInCart = $request->session()->get('productsInCart', []);
+        $productsInCart = Session::get('products_in_cart', []);
         $products = Product::whereIn('id', $productsInCart)->get();
         $totalPrice = $products->sum('price');
 
-        Mail::to(env('USER_EMAIL'))->send(new OrderConfirmation($products, $request->all()));
+        $productsIds = array_values($productsInCart);
+
+        if (!empty(env('USER_EMAIL'))) {
+            Mail::to(env('USER_EMAIL'))->send(new OrderConfirmation($productsIds, $request->all()));
+        }
 
         $order = Order::create([
             'customer_name' => $request->name,
@@ -113,10 +118,10 @@ class CartController extends Controller
         ]);
 
         if ($products->isNotEmpty()) {
-            $order->products()->attach($products->pluck('id')->toArray());
+            $order->products()->attach($products);
         }
 
-        $request->session()->forget('productsInCart');
+        Session::forget('products_in_cart');
 
         if ($request->expectsJson()) {
             return response()->json(['success' => __('Order placed successfully')]);

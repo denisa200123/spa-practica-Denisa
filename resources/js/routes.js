@@ -286,7 +286,7 @@ $(document).ready(function () {
                 let removedProduct = window.location.hash.split('#remove/')[1];
                 $.ajax({
                     type: 'post',
-                    url: `/cart/${removedProduct}/clear`,
+                    url: `/cart/${removedProduct}/remove`,
                     dataType: 'json',
                     success: function (response) {
                         window.location.hash = '#cart';
@@ -302,7 +302,7 @@ $(document).ready(function () {
             //login page
             case '#login':
                 $.ajax({
-                    url: '/login/form',
+                    url: '/login',
                     dataType: 'json',
                     success: function () {
                         $('.login').show();
